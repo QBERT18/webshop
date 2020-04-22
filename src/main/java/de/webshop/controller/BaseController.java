@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BaseController {
 
     @GetMapping("/")
-    public String test() {
+    public String redirectSlashToHome() {
+        return "redirect:home";
+    }
+    @GetMapping("/home")
+    public String home() {
         return "home";
     }
 }
