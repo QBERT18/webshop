@@ -30,10 +30,10 @@ body {
     text-align: left;
 }
 .main-page-body {
-    gap: 50px 1px;
+    gap: 30px 1px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas: "." "." "." "." "." ".";
 }
 .stage {
@@ -127,7 +127,6 @@ body {
 }
 .product-grid {
     text-align: center;
-    border: 3px solid yellow;
 }
 .product-grid-content {
     display: grid;
@@ -136,11 +135,31 @@ body {
     gap: 40px 1px;
     grid-template-areas: ". . . ." ". . . .";
 }
-
-
 .customer-reviews {
-    border: 3px solid yellow;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
 }
-.newsletter {
-    border: 3px solid yellow;
+.customer-reviews-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 20px;
+    grid-template-areas: ". . .";
+    text-align: center;
+}
+.customer-reviews-content-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+}
+.customer-reviews-col-icon {
+    width: 20px;
+    height: 20px;
 }
