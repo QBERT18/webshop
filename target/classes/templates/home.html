@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de" id="html">
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,16 +7,230 @@
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
 </head>
     <body>
-    <header>
-        <div th:replace="parts/parts.html :: nav"></div>
-    </header>
-    <main>main</main>
-    <footer>footer</footer>
+        <header>
+            <div th:replace="parts/parts.html :: nav"></div>
+        </header>
+        <main class="main-page-body">
+            <div class="stage">
+                <div class="stage-content position-relative">
+                    <div class="stage-text position-absolute">
+                        <h2>Foto mit überlegtem Text</h2>
+                        <p>Nutzen Sie überlegten Text, um Kunden über Ihre Marke zu informieren. Wählen Sie Fotos und Text aus, die zu Ihrer Marke passen.</p>
+                    </div>
+                    <div class="stage-background">
+                        <picture class="parallax-image">
+                            <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/1019x500/fae/fae/">
+                            <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/1199x500/fae/fae/">
+                            <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/1260x500/fae/fae/">
+                            <img src="https://intpic01.internom.net/full/1260x500/fae/fae/">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+            <div class="image-text-teaser container">
+                <div class="image-text-teaser-content">
+                    <div class="teaser-image">
+                        <picture class="parallax-image">
+                            <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/400x500/fae/fae/">
+                            <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/500x500/fae/fae/">
+                            <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/600x500/fae/fae/">
+                            <img src="https://intpic01.internom.net/full/600x500/fae/fae/">
+                        </picture>
+                    </div>
+                    <div class="teaser-text">
+                        <div class="teaser-text-header">
+                            Foto mit Text
+                        </div>
+                        <div class="teaser-text-text">
+                            Kombinieren Sie große Schrift mit einem Foto, um einen Fokus auf Ihr ausgewähltes Produkt, die Kategorie oder einen Blogpost zu legen. Sie können dann Details zur Verfügbarkeit und dem Style oder sogar eine Bewertung hinzufügen.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="three-column-image-text-teaser">
+                <div class="three-column-image-text-teaser-content">
+                    <div class="three-column-image-text-teaser-col">
+                        <div class="three-column-image-text-teaser-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/250x400/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/300x400/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/350x400/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/350x400/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="three-column-image-text-teaser-col-text">
+                            <div class="three-column-image-text-teaser-col-text-header">
+                                Titel oder Text hinzufügen
+                            </div>
+                            <div class="three-column-image-text-teaser-col-text-text">
+                                Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three-column-image-text-teaser-col">
+                        <div class="three-column-image-text-teaser-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/250x400/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/300x400/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/350x400/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/350x400/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="three-column-image-text-teaser-col-text">
+                            <div class="three-column-image-text-teaser-col-text-header">
+                                Titel oder Text hinzufügen
+                            </div>
+                            <div class="three-column-image-text-teaser-col-text-text">
+                                Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three-column-image-text-teaser-col">
+                        <div class="three-column-image-text-teaser-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/250x400/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/300x400/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/350x400/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/350x400/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="three-column-image-text-teaser-col-text">
+                            <div class="three-column-image-text-teaser-col-text-header">
+                                Titel oder Text hinzufügen
+                            </div>
+                            <div class="three-column-image-text-teaser-col-text-text">
+                                Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Boostrap Scripts Start -->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <!-- Boostrap Scripts End -->
+
+            <div class="product-grid">
+                <div class="product-grid-content">
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                    <div class="product-grid-content-col">
+                        <div class="product-grid-content-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/200x200/fae/fae/">
+                                <img src="https://intpic01.internom.net/full/200x200/fae/fae/">
+                            </picture>
+                        </div>
+                        <div class="product-grid-content-col-text">
+                            Der Name Ihres Produkts
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="customer-reviews">
+
+            </div>
+            <div class="newsletter">
+
+            </div>
+        </main>
+        <footer>footer</footer>
+
+        <!-- Boostrap Scripts Start -->
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- Boostrap Scripts End -->
     </body>
 </html>
