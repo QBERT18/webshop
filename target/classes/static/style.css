@@ -1,0 +1,203 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.03fr 1fr 0.1fr;
+    gap: 1px 1px;
+    grid-template-areas: "." "." ".";
+}
+.navbar {
+    height: 80px;
+    z-index: 100;
+    width: 100%;
+    padding: 0;
+}
+.navbar-brand {
+    font-family: Helvetica, "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+.site-header__icon {
+    width: 42px;
+    height: 42px;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding-bottom: 15px;
+    color: #3a3a3a;
+    text-align: left;
+}
+.main-page-body {
+    gap: 30px 1px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: "." "." "." "." "." ".";
+}
+.stage {
+    width: 100%;
+    text-align: center;
+}
+.stage-content {
+    width: 100%;
+    text-align: center;
+}
+.stage-background {
+    width: 100%;
+}
+.stage-text {
+    width: 100%;
+    top: 50%;
+    bottom: 50%;
+    left: 0;
+    right: 0;
+}
+.image-text-teaser-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 35px;
+    grid-template-areas: ". .";
+}
+.teaser-text {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+}
+.teaser-text-header {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: flex-start;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+}
+.three-column-image-text-teaser {
+    text-align: center;
+}
+.three-column-image-text-teaser-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 30px;
+    grid-template-areas: ". . .";
+}
+.three-column-image-text-teaser-col {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.three-column-image-text-teaser-col-text {
+    margin-top: 20px;
+}
+.three-column-image-text-teaser-col-text-text {
+    margin-top: 15px;
+
+}
+.product-grid {
+    text-align: center;
+}
+.product-grid-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px 1px;
+    grid-template-areas: ". . . ." ". . . .";
+}
+.customer-reviews {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+}
+.customer-reviews-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 20px;
+    grid-template-areas: ". . .";
+    text-align: center;
+}
+.customer-reviews-content-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+}
+.customer-reviews-col-icon {
+    width: 20px;
+    height: 20px;
+}
+.footer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+    background-color: #F6F6F6;
+}
+.footer-content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px 1px;
+    grid-template-areas: "." ".";
+}
+.newsletter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". .";
+}
+.copyright {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". .";
+}
+.newsletter-email-field {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+}
+.copyright-text {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-end;
+    align-items: center;
+}
+.newsletter-quick-links {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
+}
