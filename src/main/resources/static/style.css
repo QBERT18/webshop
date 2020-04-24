@@ -1,7 +1,7 @@
 body {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 0.03fr 1fr 0.03fr;
+    grid-template-rows: 0.03fr 1fr 0.1fr;
     gap: 1px 1px;
     grid-template-areas: "." "." ".";
 }
@@ -65,20 +65,10 @@ body {
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
-    -webkit-align-content: flex-start;
-    -ms-flex-line-pack: start;
     align-content: flex-start;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
 }
 .teaser-text-header {
@@ -106,17 +96,9 @@ body {
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
     justify-content: center;
-    -webkit-align-content: flex-start;
-    -ms-flex-line-pack: start;
 }
 .three-column-image-text-teaser-col-text {
     margin-top: 20px;
@@ -162,4 +144,60 @@ body {
 .customer-reviews-col-icon {
     width: 20px;
     height: 20px;
+}
+.footer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+    background-color: #F6F6F6;
+}
+.footer-content {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px 1px;
+    grid-template-areas: "." ".";
+}
+.newsletter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". .";
+}
+.copyright {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". .";
+}
+.newsletter-email-field {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+}
+.copyright-text {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-end;
+    align-items: center;
+}
+.newsletter-quick-links {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: flex-start;
+    align-items: flex-start;
 }
