@@ -6,10 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "de.webshop")
-public class WebshopApplication {
+public class Webshop {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebshopApplication.class, args);
+        SpringApplication.run(Webshop.class, args);
     }
 
 }
