@@ -9,8 +9,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableJpaRepositories(value = "de.webshop.db.dataAccessObjects")
-@EntityScan(value = "de.webshop.entities")
+@EnableJpaRepositories(basePackages = "de.webshop.db.dataAccessObjects")
+@EntityScan(basePackages = "de.webshop.entities")
 @EnableWebMvc
 public class ApplicationConfig implements WebMvcConfigurer {
 

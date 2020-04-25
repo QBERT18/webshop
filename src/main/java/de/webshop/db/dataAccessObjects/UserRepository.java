@@ -1,6 +1,6 @@
 package de.webshop.db.dataAccessObjects;
 
-import de.webshop.entitites.User;
+import de.webshop.entities.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {

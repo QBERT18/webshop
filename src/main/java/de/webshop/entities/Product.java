@@ -1,4 +1,4 @@
-package de.webshop.entitites;
+package de.webshop.entities;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package de.webshop.services.impl;
 
 import de.webshop.db.dataAccessObjects.UserRepository;
-import de.webshop.entitites.User;
+import de.webshop.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

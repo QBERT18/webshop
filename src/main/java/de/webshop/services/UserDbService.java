@@ -2,7 +2,7 @@ package de.webshop.services;
 
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.dataTransferObjects.UserUpdateData;
-import de.webshop.entitites.User;
+import de.webshop.entities.User;
 import org.springframework.dao.DuplicateKeyException;
 
 public interface UserDbService {
