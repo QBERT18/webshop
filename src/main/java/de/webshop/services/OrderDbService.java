@@ -2,7 +2,7 @@ package de.webshop.services;
 
 import de.webshop.constants.OrderStatus;
 import de.webshop.entities.Order;
-import de.webshop.entities.relations.OrderProducts;
+import de.webshop.entities.Product;
 import de.webshop.services.exceptions.OrderDbServiceException;
 
 import java.util.List;
@@ -16,5 +16,5 @@ public interface OrderDbService {
 
     List<Order> getOrdersByOrderStatus(OrderStatus orderStatus) throws OrderDbServiceException;
 
-    List<OrderProducts> getProductsByOrderId(long orderId) throws OrderDbServiceException;
+    List<Product> getProductsByOrderId(long orderId) throws OrderDbServiceException;
 }

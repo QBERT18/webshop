@@ -3,6 +3,7 @@ package de.webshop.services.impl;
 import de.webshop.constants.OrderStatus;
 import de.webshop.db.dataAccessObjects.OrderRepository;
 import de.webshop.entities.Order;
+import de.webshop.entities.Product;
 import de.webshop.entities.relations.OrderProducts;
 import de.webshop.services.OrderDbService;
 import de.webshop.services.exceptions.OrderDbServiceException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("orderDbService")
 public class OrderDbServiceImpl implements OrderDbService {
@@ -51,11 +53,13 @@ public class OrderDbServiceImpl implements OrderDbService {
     }
 
     @Override
-    public List<OrderProducts> getProductsByOrderId(long orderId) throws OrderDbServiceException {
+    public List<Product> getProductsByOrderId(long orderId) throws OrderDbServiceException {
         if (orderId <= 0) {
             throw new OrderDbServiceException("Illegal orderId" + orderId);
         } else {
-            return orderRepository.findById(orderId).map(Order::getOrderProducts).orElseGet(Collections::emptyList);
+            final List<OrderProducts> orderProductsList = orderRepository.findById(orderId)
+                    .map(Order::getOrderProducts).orElseGet(Collections::emptyList);
+            return orderProductsList.stream().map(OrderProducts::getProduct).distinct().collect(Collectors.toList());
         }
     }
 }
