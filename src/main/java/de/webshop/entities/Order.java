@@ -144,4 +144,16 @@ public class Order {
     public int hashCode() {
         return Objects.hash(orderId, user, orderProducts, orderTime, deliverTime, orderStatus);
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", user=" + user +
+                ", orderProducts=" + orderProducts +
+                ", orderTime=" + orderTime +
+                ", deliverTime=" + deliverTime +
+                ", orderStatus=" + orderStatus +
+                '}';
+    }
 }

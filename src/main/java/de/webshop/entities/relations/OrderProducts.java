@@ -121,4 +121,14 @@ public class OrderProducts {
     public int hashCode() {
         return Objects.hash(key, order, product, productCount);
     }
+
+    @Override
+    public String toString() {
+        return "OrderProducts{" +
+                "key=" + key +
+                ", order=" + order +
+                ", product=" + product +
+                ", productCount=" + productCount +
+                '}';
+    }
 }

@@ -151,4 +151,17 @@ public class Product {
     public int hashCode() {
         return Objects.hash(productId, productName, price, stock, imageUrls, description);
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", orderProducts=" + orderProducts +
+                ", productName='" + productName + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", imageUrls='" + imageUrls + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

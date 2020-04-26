@@ -62,7 +62,8 @@ public class Address {
      * @param city        non-null, non-empty
      * @param street      non-null, non-empty
      */
-    public Address(@NotNull @NotEmpty String countryCode, @NotNull @NotEmpty String zipCode, @NotNull @NotEmpty String city, @NotNull @NotEmpty String street) {
+    public Address(@NotNull @NotEmpty String countryCode, @NotNull @NotEmpty String zipCode,
+                   @NotNull @NotEmpty String city, @NotNull @NotEmpty String street) {
         this.countryCode = countryCode;
         this.zipCode = zipCode;
         this.city = city;

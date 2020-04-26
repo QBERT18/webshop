@@ -68,13 +68,18 @@ public class User {
     /**
      * User Constructor.
      *
-     * @param email    Email of User. not-null
-     * @param password Hashed Password of User. not-null
+     * @param email           email of user. non-null & non-empty
+     * @param password        hashed password of user. non-null & non-empty
+     * @param firstName       first name. non-null & non-empty
+     * @param lastName        last name. non-null & non-empty
+     * @param deliveryAddress delivery address. non-null
+     * @param billAddress     bill address. may be null
+     * @param userPermission  the kind of permission the user has. non-null
      */
-    public User(@NotNull @NotEmpty final String email, final @NotNull @NotEmpty String password,
+    public User(final @NotNull @NotEmpty String email, final @NotNull @NotEmpty String password,
                 final @NotNull @NotEmpty String firstName, final @NotNull @NotEmpty String lastName,
-                final @NotNull @NotEmpty Address deliveryAddress, final Address billAddress,
-                final @NotNull @NotEmpty UserPermission userPermission) throws NullPointerException {
+                final @NotNull Address deliveryAddress, final Address billAddress,
+                final @NotNull UserPermission userPermission) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -200,5 +205,20 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userId, orders, deliveryAddress, billAddress, email, password, firstName, lastName, userPermission);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", orders=" + orders +
+                ", deliveryAddress=" + deliveryAddress +
+                ", billAddress=" + billAddress +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userPermission=" + userPermission +
+                '}';
     }
 }

@@ -67,4 +67,12 @@ public class OrderProductsCompositeKey implements Serializable {
     public int hashCode() {
         return Objects.hash(orderId, productId);
     }
+
+    @Override
+    public String toString() {
+        return "OrderProductsCompositeKey{" +
+                "orderId=" + orderId +
+                ", productId=" + productId +
+                '}';
+    }
 }
