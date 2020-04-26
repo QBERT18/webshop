@@ -10,6 +10,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service(value = "userService")
 public class UserDbServiceImpl implements UserDbService {
 
@@ -28,8 +30,8 @@ public class UserDbServiceImpl implements UserDbService {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return userRepository.getUserByEmail(email);
+    public Optional<User> getUserByEmail(String email) {
+        return Optional.ofNullable(userRepository.getUserByEmail(email));
     }
 
     @Override
@@ -44,7 +46,9 @@ public class UserDbServiceImpl implements UserDbService {
 
     @Override
     public User updateUser(User user, UserUpdateData userUpdateData) {
-        user.setEmail(userUpdateData.getEmail());
+        if (!user.getEmail().equals(userUpdateData.getEmail())) {
+            user.setEmail(userUpdateData.getEmail());
+        }
         return user;
     }
 }

@@ -5,11 +5,13 @@ import de.webshop.dataTransferObjects.UserUpdateData;
 import de.webshop.entities.User;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.util.Optional;
+
 public interface UserDbService {
 
     Iterable<User> getAllUsers();
 
-    User getUserByEmail(String email);
+    Optional<User> getUserByEmail(String email);
 
     User registerNewUser(RegistrationData registrationData) throws DuplicateKeyException;
 
