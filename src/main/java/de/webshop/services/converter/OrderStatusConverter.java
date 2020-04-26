@@ -17,13 +17,13 @@ public class OrderStatusConverter implements AttributeConverter<OrderStatus, Str
         if (attribute == null) {
             throw new IllegalStateException("Tried to convert null orderStatus");
         } else {
-            return attribute.getCode();
+            return attribute.getDbCode();
         }
     }
 
     @Override
     public OrderStatus convertToEntityAttribute(String dbData) {
-        return Arrays.stream(OrderStatus.values()).filter(orderStatus -> orderStatus.getCode().equals(dbData))
+        return Arrays.stream(OrderStatus.values()).filter(orderStatus -> orderStatus.getDbCode().equals(dbData))
                 .findFirst().orElseThrow(IllegalStateException::new);
     }
 }
