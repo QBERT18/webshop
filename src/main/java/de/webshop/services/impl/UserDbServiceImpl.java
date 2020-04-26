@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service(value = "userService")
+@Service("userDbService")
 public class UserDbServiceImpl implements UserDbService {
 
     private final UserRepository userRepository;

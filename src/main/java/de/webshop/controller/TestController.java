@@ -2,6 +2,7 @@ package de.webshop.controller;
 
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.services.UserDbService;
+import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/registerTest", method = RequestMethod.GET)
-    public ModelAndView registerNewUser() {
+    public ModelAndView registerNewUser() throws UserDbServiceException {
         RegistrationData data = new RegistrationData();
         data.setEmail("testmail@host.de");
         data.setPassword("testPassword");

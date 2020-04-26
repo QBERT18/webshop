@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Service used for authentication of users.
  */
-@Service
+@Service("userAuthService")
 @Transactional
 public class UserAuthServiceImpl implements UserDetailsService {
 

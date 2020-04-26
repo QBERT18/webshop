@@ -1,5 +1,6 @@
 package de.webshop.entities;
 
+import de.webshop.constants.OrderStatus;
 import de.webshop.entities.relations.OrderProducts;
 
 import javax.persistence.CascadeType;
@@ -14,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -54,7 +54,7 @@ public class Order {
     private LocalDateTime deliverTime;
 
     @Column(name = "ORDER_STATUS", nullable = false)
-    private int orderStatus;
+    private OrderStatus orderStatus;
 
     /**
      * Order constructor.
@@ -63,7 +63,7 @@ public class Order {
      * @param orderTime   non-null
      * @param orderStatus non-null
      */
-    public Order(@NotNull User user, @NotNull LocalDateTime orderTime, @Positive int orderStatus) {
+    public Order(@NotNull User user, @NotNull LocalDateTime orderTime, @NotNull OrderStatus orderStatus) {
         this.user = user;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -115,11 +115,11 @@ public class Order {
         this.deliverTime = deliverTime;
     }
 
-    public int getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(int orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
