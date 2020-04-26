@@ -35,9 +35,9 @@ public class UserDbServiceImpl implements UserDbService {
     @Override
     public User registerNewUser(RegistrationData registrationData) throws DuplicateKeyException {
         final String email = registrationData.getEmail();
-//        if (userRepository.getUserByEmail(email) != null) {
-//            throw new DuplicateKeyException("User with this email already exists: " + email);
-//        }
+        if (userRepository.getUserByEmail(email) != null) {
+            throw new DuplicateKeyException("User with this email already exists: " + email);
+        }
         final String password = passwordEncoder.encode(registrationData.getPassword());
         return userRepository.save(new User(email, password));
     }

@@ -1,42 +1,85 @@
 package de.webshop.entities;
 
+import de.webshop.entities.relations.OrderProducts;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.net.URL;
+import javax.validation.constraints.PositiveOrZero;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
+@Entity
+@Table(name = "PRODUCTS")
 public class Product {
 
+    /*
+     * ID
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(unique = true)
+    @Column(name = "PRODUCT_ID", unique = true, nullable = false, updatable = false)
+    private long productId;
+
+    /*
+     * RELATIONS
+     */
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderProducts> orderProducts;
+
+    /*
+     * FIELDS
+     */
+
+    @Column(name = "PRODUCT_NAME", unique = true, nullable = false)
     private String productName;
+
+    @Column(name = "PRICE_EUR", nullable = false)
     private double price; // in EUR
+
+    @Column(name = "STOCK_COUNT", nullable = false)
     private int stock;
-    private Set<URL> imageUrls;
+
+    @Column(name = "IMAGE_URLS", columnDefinition = "TEXT NOT NULL")
+    private String imageUrls;
+
+    @Column(name = "DESCRIPTION", columnDefinition = "TEXT NOT NULL")
     private String description;
 
-    public Product(@NotNull String productName, @NotNull double price) {
+    /**
+     * Product constructor.
+     *
+     * @param productName not-null
+     * @param price       >= 0
+     * @param stock       >= 0
+     * @param description not-null
+     */
+    public Product(@NotNull String productName, @PositiveOrZero double price, @PositiveOrZero int stock, @NotNull String description) {
         this.productName = productName;
         this.price = price;
+        this.stock = stock;
+        this.description = description;
     }
 
+    /**
+     * empty Constructor for JPA
+     */
     public Product() {
-
     }
 
     public long getId() {
-        return id;
+        return productId;
     }
 
     public void setId(long id) {
-        this.id = id;
+        productId = id;
     }
 
     public String getProductName() {
@@ -63,11 +106,11 @@ public class Product {
         this.stock = stock;
     }
 
-    public Set<URL> getImageUrls() {
+    public String getImageUrls() {
         return imageUrls;
     }
 
-    public void setImageUrls(Set<URL> imageUrls) {
+    public void setImageUrls(String imageUrls) {
         this.imageUrls = imageUrls;
     }
 
@@ -88,7 +131,7 @@ public class Product {
             return false;
         }
         Product product = (Product) o;
-        return id == product.id &&
+        return productId == product.productId &&
                 Double.compare(product.price, price) == 0 &&
                 stock == product.stock &&
                 productName.equals(product.productName) &&
@@ -98,6 +141,6 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productName, price, stock, imageUrls, description);
+        return Objects.hash(productId, productName, price, stock, imageUrls, description);
     }
 }
