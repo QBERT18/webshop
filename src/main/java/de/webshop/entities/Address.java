@@ -31,10 +31,10 @@ public class Address {
      */
 
     @OneToMany(mappedBy = "deliveryAddress", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<User> usersDeliveryAddresses;
+    private List<User> usersWithThisDeliveryAddress;
 
-    @OneToMany(mappedBy = "billAddress", fetch = FetchType.LAZY, orphanRemoval =  true)
-    private List<User> usersBillAddresses;
+    @OneToMany(mappedBy = "billAddress", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<User> usersWithThisBillAddress;
 
     /*
      * FIELDS
@@ -115,19 +115,19 @@ public class Address {
     }
 
     public List<User> getUsersDeliveryAddresses() {
-        return usersDeliveryAddresses;
+        return usersWithThisDeliveryAddress;
     }
 
-    public void setUsersDeliveryAddresses(List<User> usersDeliveryAddresses) {
-        this.usersDeliveryAddresses = usersDeliveryAddresses;
+    public void setUsersDeliveryAddresses(List<User> usersWithThisDeliveryAddress) {
+        this.usersWithThisDeliveryAddress = usersWithThisDeliveryAddress;
     }
 
     public List<User> getUsersBillAddresses() {
-        return usersBillAddresses;
+        return usersWithThisBillAddress;
     }
 
-    public void setUsersBillAddresses(List<User> usersBillAddresses) {
-        this.usersBillAddresses = usersBillAddresses;
+    public void setUsersBillAddresses(List<User> usersWithThisBillAddress) {
+        this.usersWithThisBillAddress = usersWithThisBillAddress;
     }
 
     @Override
@@ -140,8 +140,8 @@ public class Address {
         }
         Address address = (Address) o;
         return addressId == address.addressId &&
-                Objects.equals(usersDeliveryAddresses, address.usersDeliveryAddresses) &&
-                Objects.equals(usersBillAddresses, address.usersBillAddresses) &&
+                Objects.equals(usersWithThisDeliveryAddress, address.usersWithThisDeliveryAddress) &&
+                Objects.equals(usersWithThisBillAddress, address.usersWithThisBillAddress) &&
                 countryCode.equals(address.countryCode) &&
                 zipCode.equals(address.zipCode) &&
                 city.equals(address.city) &&
@@ -150,6 +150,6 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return Objects.hash(addressId, usersDeliveryAddresses, usersBillAddresses, countryCode, zipCode, city, street);
+        return Objects.hash(addressId, usersWithThisDeliveryAddress, usersWithThisBillAddress, countryCode, zipCode, city, street);
     }
 }
