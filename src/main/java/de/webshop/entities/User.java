@@ -133,6 +133,23 @@ public class User {
         this.userId = userId;
     }
 
+    public Address getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(Address deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public Address getBillAddress() {
+        return billAddress;
+    }
+
+    public void setBillAddress(Address billAddress) {
+        this.billAddress = billAddress;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -143,16 +160,18 @@ public class User {
         }
         User user = (User) o;
         return userId == user.userId &&
+                Objects.equals(orders, user.orders) &&
+                Objects.equals(deliveryAddress, user.deliveryAddress) &&
+                Objects.equals(billAddress, user.billAddress) &&
                 email.equals(user.email) &&
                 password.equals(user.password) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(orders, user.orders) &&
+                firstName.equals(user.firstName) &&
+                lastName.equals(user.lastName) &&
                 userPermission.equals(user.userPermission);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, password, firstName, lastName, orders, userPermission);
+        return Objects.hash(userId, orders, deliveryAddress, billAddress, email, password, firstName, lastName, userPermission);
     }
 }
