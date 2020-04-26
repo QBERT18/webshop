@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,6 +32,14 @@ public class User {
 
     @OneToMany(mappedBy = "orderId")
     private Set<Order> orders;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_DELIVERY_ADDRESS_ID", referencedColumnName = "ADDRESS_ID", nullable = false)
+    private Address deliveryAddress;
+
+    @ManyToOne
+    @JoinColumn(name = "FK_BILL_ADDRESS_ID", referencedColumnName = "ADDRESS_ID")
+    private Address billAddress;
 
     /*
      * FIELDS
