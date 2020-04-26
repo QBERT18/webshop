@@ -1,4 +1,4 @@
-package de.webshop.services.converter;
+package de.webshop.constants.converter;
 
 import de.webshop.constants.OrderStatus;
 
