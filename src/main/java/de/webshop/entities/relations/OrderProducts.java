@@ -6,6 +6,7 @@ import de.webshop.entities.Product;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -15,7 +16,9 @@ import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @Entity
-@Table(name = "ORDER_PRODUCTS")
+@Table(name = "ORDER_PRODUCTS", indexes = {
+        @Index(name = "index_order_id", columnList = "ORDER_ID"),
+        @Index(name = "index_product_id", columnList = "PRODUCT_ID")})
 public class OrderProducts {
 
     /*
