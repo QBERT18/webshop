@@ -24,6 +24,10 @@ public class TestController {
         RegistrationData data = new RegistrationData();
         data.setEmail("testmail@host.de");
         data.setPassword("testPassword");
+        data.setCity("Bielefeld");
+        data.setCountryCode("DE");
+        data.setZipCode("33689");
+        data.setStreet("GehtDichNixAn 23");
         userDbService.registerNewUser(data);
 
         return new ModelAndView("helloworld");

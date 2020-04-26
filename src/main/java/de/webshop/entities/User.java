@@ -1,6 +1,8 @@
 package de.webshop.entities;
 
 
+import de.webshop.constants.UserPermission;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
@@ -57,8 +60,8 @@ public class User {
     @Column(name = "LAST_NAME", nullable = false, length = 256)
     private String lastName;
 
-    @Column(name = "USER_PERMISSION", nullable = false, length = 256)
-    private String userPermission;
+    @Column(name = "USER_PERMISSION", nullable = false, length = 128)
+    private UserPermission userPermission;
 
     /**
      * User Constructor.
@@ -66,9 +69,17 @@ public class User {
      * @param email    Email of User. not-null
      * @param password Hashed Password of User. not-null
      */
-    public User(@NotNull final String email, final @NotNull String password) throws NullPointerException {
+    public User(@NotNull @NotEmpty final String email, final @NotNull @NotEmpty String password,
+                final @NotNull @NotEmpty String firstName, final @NotNull @NotEmpty String lastName,
+                final @NotNull @NotEmpty Address deliveryAddress, final Address billAddress,
+                final @NotNull @NotEmpty UserPermission userPermission) throws NullPointerException {
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.deliveryAddress = deliveryAddress;
+        this.billAddress = billAddress;
+        this.userPermission = userPermission;
     }
 
     /**
@@ -109,11 +120,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUserPermission() {
+    public UserPermission getUserPermission() {
         return userPermission;
     }
 
-    public void setUserPermission(String userPermission) {
+    public void setUserPermission(UserPermission userPermission) {
         this.userPermission = userPermission;
     }
 

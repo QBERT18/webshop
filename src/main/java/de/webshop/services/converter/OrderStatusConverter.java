@@ -23,6 +23,7 @@ public class OrderStatusConverter implements AttributeConverter<OrderStatus, Str
 
     @Override
     public OrderStatus convertToEntityAttribute(String dbData) {
-        return Arrays.stream(OrderStatus.values()).filter(orderStatus -> orderStatus.getCode().equals(dbData)).findFirst().orElseThrow(IllegalStateException::new);
+        return Arrays.stream(OrderStatus.values()).filter(orderStatus -> orderStatus.getCode().equals(dbData))
+                .findFirst().orElseThrow(IllegalStateException::new);
     }
 }
