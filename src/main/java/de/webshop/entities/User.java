@@ -2,6 +2,8 @@ package de.webshop.entities;
 
 
 import de.webshop.constants.UserPermission;
+import de.webshop.dataTransferObjects.RegistrationData;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -86,6 +88,20 @@ public class User {
      * empty Constructor for JPA
      */
     public User() {
+    }
+
+    // TODO move this into some kind of factory and declare a checked custom Exception
+    public static User from(final RegistrationData registrationData, final Address deliveryAddress, final PasswordEncoder passwordEncoder) throws IllegalArgumentException {
+        if (registrationData == null || !registrationData.isValid()) {
+            throw new IllegalArgumentException("RegistrationData was null or invalid: " + registrationData);
+        } else if (passwordEncoder == null) {
+            throw new IllegalStateException("PasswordEncoder was not initialized");
+        } else {
+            final String password = passwordEncoder.encode(registrationData.getPassword());
+            final Address newDeliveryAddress = deliveryAddress != null ? deliveryAddress : Address.from(registrationData.getAddressData());
+            return new User(registrationData.getEmail(), password, registrationData.getFirstName(), registrationData.getLastName(),
+                    newDeliveryAddress, null, UserPermission.RESTRICTED);
+        }
     }
 
     public String getEmail() {

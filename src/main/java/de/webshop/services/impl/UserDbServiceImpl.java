@@ -1,13 +1,15 @@
 package de.webshop.services.impl;
 
-import de.webshop.constants.UserPermission;
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.dataTransferObjects.UserUpdateData;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.Address;
 import de.webshop.entities.User;
+import de.webshop.services.AddressDbService;
 import de.webshop.services.UserDbService;
+import de.webshop.services.exceptions.AddressDbServiceException;
 import de.webshop.services.exceptions.UserDbServiceException;
+import de.webshop.util.StringUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +22,13 @@ public class UserDbServiceImpl implements UserDbService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressDbService addressDbService;
 
     @Autowired
-    public UserDbServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserDbServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AddressDbService addressDbService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.addressDbService = addressDbService;
     }
 
     @Override
@@ -39,20 +43,20 @@ public class UserDbServiceImpl implements UserDbService {
 
     @Override
     public User registerNewUser(RegistrationData registrationData) throws DuplicateKeyException, UserDbServiceException {
-        if (registrationData == null || !registrationData.isValid()) {
-            throw new UserDbServiceException("Invalid or null registrationData DTO");
+        final String email = registrationData.getEmail();
+        if (StringUtilities.isNullOrEmpty(email)) {
+            throw new UserDbServiceException("Email was null or empty: " + registrationData);
+        } else if (userRepository.getUserByEmail(email) != null) {
+            throw new DuplicateKeyException("User with this email already exists: " + email);
         } else {
-            final String email = registrationData.getEmail();
-            if (userRepository.getUserByEmail(email) != null) {
-                throw new DuplicateKeyException("User with this email already exists: " + email);
+            try {
+                // as deliveryAddress is a non-null FK column, the address must be in the db before saving the new user
+                Address savedNewAddress = addressDbService.saveNewAddress(registrationData.getAddressData());
+                final User newUser = User.from(registrationData, savedNewAddress, passwordEncoder);
+                return userRepository.save(newUser);
+            } catch (AddressDbServiceException e) {
+                throw new UserDbServiceException("Could not save new address", e);
             }
-            final String password = passwordEncoder.encode(registrationData.getPassword());
-            final String firstName = registrationData.getFirstName();
-            final String lastName = registrationData.getLastName();
-            final Address deliverAddress = new Address(registrationData.getCountryCode(), registrationData.getZipCode(),
-                    registrationData.getCity(), registrationData.getStreet());
-            final User newUser = new User(email, password, firstName, lastName, deliverAddress, null, UserPermission.RESTRICTED);
-            return userRepository.save(newUser);
         }
     }
 

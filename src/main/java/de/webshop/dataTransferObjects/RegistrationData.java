@@ -25,24 +25,12 @@ public class RegistrationData implements DataTransferObject {
     private String lastName;
 
     @NotNull
-    @NotEmpty
-    private String countryCode;
-
-    @NotNull
-    @NotEmpty
-    private String zipCode;
-
-    @NotNull
-    @NotEmpty
-    private String city;
-
-    @NotNull
-    @NotEmpty
-    private String street;
+    private AddressData addressData;
 
     @Override
     public boolean isValid() {
-        return StringUtilities.isAnyNullOrEmpty(email, password, firstName, lastName, countryCode, zipCode, city, street);
+        return !StringUtilities.isAnyNullOrEmpty(email, password, firstName, lastName) &&
+                addressData != null && addressData.isValid();
     }
 
     public String getEmail() {
@@ -77,38 +65,13 @@ public class RegistrationData implements DataTransferObject {
         this.lastName = lastName;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public AddressData getAddressData() {
+        return addressData;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setAddressData(AddressData addressData) {
+        this.addressData = addressData;
     }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -123,14 +86,22 @@ public class RegistrationData implements DataTransferObject {
                 Objects.equals(password, data.password) &&
                 Objects.equals(firstName, data.firstName) &&
                 Objects.equals(lastName, data.lastName) &&
-                Objects.equals(countryCode, data.countryCode) &&
-                Objects.equals(zipCode, data.zipCode) &&
-                Objects.equals(city, data.city) &&
-                Objects.equals(street, data.street);
+                Objects.equals(addressData, data.addressData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password, firstName, lastName, countryCode, zipCode, city, street);
+        return Objects.hash(email, password, firstName, lastName, addressData);
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationData{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", addressData=" + addressData +
+                '}';
     }
 }

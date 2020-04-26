@@ -1,5 +1,6 @@
 package de.webshop.controller;
 
+import de.webshop.dataTransferObjects.AddressData;
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.UserDbServiceException;
@@ -21,15 +22,19 @@ public class TestController {
 
     @RequestMapping(value = "/registerTest", method = RequestMethod.GET)
     public ModelAndView registerNewUser() throws UserDbServiceException {
-        RegistrationData data = new RegistrationData();
+        final RegistrationData data = new RegistrationData();
+        final AddressData addressData = new AddressData();
         data.setEmail("testmail@host.de");
         data.setPassword("testPassword");
-        data.setCity("Bielefeld");
-        data.setCountryCode("DE");
-        data.setZipCode("33689");
-        data.setStreet("GehtDichNixAn 23");
+        data.setFirstName("Benjamin");
+        data.setLastName("Blümchen");
+        addressData.setCity("Bielefeld");
+        addressData.setCountryCode("DE");
+        addressData.setZipCode("33689");
+        addressData.setStreet("Hinterm Bahnhof 23");
+        data.setAddressData(addressData);
         userDbService.registerNewUser(data);
 
-        return new ModelAndView("helloworld");
+        return new ModelAndView("home");
     }
 }

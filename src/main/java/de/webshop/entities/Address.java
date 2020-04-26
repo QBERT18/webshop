@@ -1,5 +1,7 @@
 package de.webshop.entities;
 
+import de.webshop.dataTransferObjects.AddressData;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -71,7 +73,15 @@ public class Address {
      * empty Constructor for JPA
      */
     public Address() {
+    }
 
+    // TODO move this into some kind of factory and declare a checked custom Exception
+    public static Address from(final AddressData addressData) throws IllegalArgumentException {
+        if (addressData == null || !addressData.isValid()) {
+            throw new IllegalArgumentException("AddressData was null or invalid: " + addressData);
+        } else {
+            return new Address(addressData.getCountryCode(), addressData.getZipCode(), addressData.getCity(), addressData.getStreet());
+        }
     }
 
     public long getAddressId() {
