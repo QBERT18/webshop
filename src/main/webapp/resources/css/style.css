@@ -37,6 +37,14 @@
     grid-template-areas: "." ".";
     margin-bottom: 40px;
 }
+.main-registration-page-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ".";
+    margin-bottom: 40px;
+}
 .stage {
     width: 100%;
     text-align: center;
