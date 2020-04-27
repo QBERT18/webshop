@@ -24,7 +24,7 @@ public class RegistrationData implements DataTransferObject {
     @NotEmpty
     private String lastName;
 
-    @NotNull
+    //@NotNull
     private AddressData addressData;
 
     @Override
