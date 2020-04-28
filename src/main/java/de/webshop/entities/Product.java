@@ -1,5 +1,6 @@
 package de.webshop.entities;
 
+import de.webshop.constants.ProductCategory;
 import de.webshop.entities.relations.OrderProducts;
 
 import javax.persistence.Column;
@@ -53,6 +54,9 @@ public class Product {
     @Column(name = "DESCRIPTION", columnDefinition = "TEXT NOT NULL")
     private String description;
 
+    @Column(name = "CATEGORY", nullable = false)
+    private ProductCategory category;
+
     /**
      * Product constructor.
      *
@@ -60,12 +64,14 @@ public class Product {
      * @param price       >= 0
      * @param stock       >= 0
      * @param description not-null
+     * @param category not-null
      */
-    public Product(@NotNull String productName, @PositiveOrZero double price, @PositiveOrZero int stock, @NotNull String description) {
+    public Product(@NotNull String productName, @PositiveOrZero double price, @PositiveOrZero int stock, @NotNull String description, @NotNull ProductCategory category) {
         this.productName = productName;
         this.price = price;
         this.stock = stock;
         this.description = description;
+        this.category = category;
     }
 
     /**
@@ -130,6 +136,14 @@ public class Product {
         this.description = description;
     }
 
+    public ProductCategory getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(ProductCategory category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -142,6 +156,7 @@ public class Product {
         return productId == product.productId &&
                 Double.compare(product.price, price) == 0 &&
                 stock == product.stock &&
+                category == product.category &&
                 productName.equals(product.productName) &&
                 Objects.equals(imageUrls, product.imageUrls) &&
                 Objects.equals(description, product.description);
@@ -149,7 +164,7 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productName, price, stock, imageUrls, description);
+        return Objects.hash(productId, productName, price, stock, imageUrls, description, category);
     }
 
     @Override
@@ -162,6 +177,7 @@ public class Product {
                 ", stock=" + stock +
                 ", imageUrls='" + imageUrls + '\'' +
                 ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }
