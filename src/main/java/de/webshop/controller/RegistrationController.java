@@ -18,6 +18,7 @@ import javax.validation.Valid;
 public class RegistrationController extends BaseController{
     private final String TEMPLATE_REGISTRATION = "registration/registration";
     private final String ROUTE_REGISTRATION = "/registration";
+    private final String ROUTE_SUCCESS = "/success";
 
     private final UserDbService userDbService;
     private final UserRepository userRepository;
@@ -53,6 +54,6 @@ public class RegistrationController extends BaseController{
                 ex.printStackTrace();
             }
         }
-        return redirect("home");
+        return redirect(ROUTE_SUCCESS);
     }
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Controller;
 public abstract class BaseController {
 
     public String redirect(String route) {
-        return "redirect:/" + route;
+        return "redirect:" + route;
     }
 }

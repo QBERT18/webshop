@@ -10,7 +10,7 @@
 <header>
     <div th:replace="parts/parts.html :: nav"></div>
 </header>
-<main class="main-registration-page-body">
+<main class="main-registration-page-body position-relative">
     <div class="registration-form container">
         <div class="registration-form-content container">
             <form class="jumbotron" th:action="@{/registration}" th:object="${registrationData}" method="post">

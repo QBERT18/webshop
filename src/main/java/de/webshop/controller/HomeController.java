@@ -12,6 +12,6 @@ public class HomeController extends BaseController {
     }
     @GetMapping("/")
     public String redirectHome() {
-        return redirect("home");
+        return redirect("/home");
     }
 }
