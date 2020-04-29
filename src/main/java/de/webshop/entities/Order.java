@@ -1,10 +1,12 @@
 package de.webshop.entities;
 
 import de.webshop.constants.OrderStatus;
+import de.webshop.constants.converter.OrderStatusConverter;
 import de.webshop.entities.relations.OrderProducts;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -55,6 +57,7 @@ public class Order {
     private LocalDateTime deliverTime;
 
     @Column(name = "ORDER_STATUS", nullable = false)
+    @Convert(converter = OrderStatusConverter.class)
     private OrderStatus orderStatus;
 
     /**
