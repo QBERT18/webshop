@@ -5,17 +5,24 @@ import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.UserDbServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
 
 @Controller
-public class RegistrationController extends BaseController{
+public class RegistrationController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
     private final String TEMPLATE_REGISTRATION = "registration/registration";
     private final String ROUTE_REGISTRATION = "/registration";
     private final String ROUTE_SUCCESS = "/success";
@@ -39,7 +46,7 @@ public class RegistrationController extends BaseController{
     @PostMapping(ROUTE_REGISTRATION)
     public String registerNewUser(Model model, @Valid @ModelAttribute("registrationData") RegistrationData registrationData, BindingResult bindingResultRegistrationData,
                                   @Valid @ModelAttribute("addressData") AddressData addressData, BindingResult bindingResultAddressData) {
-        if(bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
+        if (bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
             return TEMPLATE_REGISTRATION;
         } else {
             try {
@@ -51,7 +58,7 @@ public class RegistrationController extends BaseController{
                     return TEMPLATE_REGISTRATION;
                 }
             } catch (UserDbServiceException ex) {
-                ex.printStackTrace();
+                logger.warn("Registering new user failed", ex);
             }
         }
         return redirect(ROUTE_SUCCESS);

@@ -19,21 +19,21 @@ import java.util.List;
 /**
  * Service used for authentication of users.
  */
-@Service("userAuthService")
-@Transactional
-public class UserAuthServiceImpl implements UserDetailsService {
+@Service
+@Transactional(readOnly = true)
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserAuthServiceImpl(final UserRepository userRepository) {
+    public UserDetailsServiceImpl(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        final User user = userRepository.getUserByEmail(email);
 
-        User user = userRepository.getUserByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("No User found with email" + email);
         }
@@ -45,12 +45,12 @@ public class UserAuthServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User
                 (user.getEmail(), user.getPassword(),
                         enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
-                        getAuthorities());
+                        getAuthorities(user));
     }
 
-    public static Collection<GrantedAuthority> getAuthorities() {
+    private static Collection<GrantedAuthority> getAuthorities(final User user) {
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("USER"));
+        authorityList.add(new SimpleGrantedAuthority(user.getUserPermission().getDbCode()));
 
         return authorityList;
 
