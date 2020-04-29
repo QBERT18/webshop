@@ -1,5 +1,6 @@
 package de.webshop.config;
 
+import de.webshop.constants.UserPermission;
 import de.webshop.services.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(ADMIN_ACCESS).hasRole("FULL")
+                .antMatchers(ADMIN_ACCESS).hasRole(UserPermission.FULL.getDbCode())
                 .antMatchers(RESOURCES).permitAll()
                 .antMatchers(UNRESTRICTED_ACCESS).permitAll()
                 .anyRequest().authenticated()
