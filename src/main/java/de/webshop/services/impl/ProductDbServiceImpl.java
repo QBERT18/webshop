@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("productDbService")
 public class ProductDbServiceImpl implements ProductDbService {
@@ -32,5 +33,10 @@ public class ProductDbServiceImpl implements ProductDbService {
         } else {
             return productRepository.getProductByCategory(productCategory);
         }
+    }
+
+    @Override
+    public Optional<Product> getProductById(Long id) throws ProductDbServiceException {
+        return productRepository.findById(id);
     }
 }

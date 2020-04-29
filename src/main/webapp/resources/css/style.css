@@ -118,8 +118,15 @@ footer {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr;
-    gap: 40px 1px;
+    gap: 40px 30px;
     grid-template-areas: ". . . .";
+}
+.product-grid-content-col > a {
+    text-decoration: none;
+    color: black;
+}
+.product-grid-content-col > a:hover {
+    text-decoration: none;
 }
 .customer-reviews {
     display: flex;
@@ -239,4 +246,37 @@ footer {
     text-align: center;
     font-size: 40px;
     margin-top: 100px;
+}
+.products-detail-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". .";
+}
+.products-detail-right-col-header {
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 24px;
+}
+.products-detail-right-col-description {
+    margin-bottom: 15px;
+}
+.products-detail-right-col-price {
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 18px;
+}
+.products-detail-add-to-cart {
+    background: #ff9f1a;
+    padding: 1.2em 1.5em;
+    border: none;
+    text-transform: UPPERCASE;
+    font-weight: bold;
+    color: #fff;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+    width: 200px;
 }

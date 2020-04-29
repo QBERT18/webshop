@@ -46,4 +46,10 @@ public class ProductsController {
         return "products/products";
     }
 
+    @GetMapping("/products/product-detail")
+    public String productDetail(Model model, @RequestParam(value = "id") Long id) throws ProductDbServiceException {
+        model.addAttribute("product", productDbService.getProductById(id));
+        return "products/productDetails/productDetails";
+    }
+
 }
