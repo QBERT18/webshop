@@ -3,6 +3,7 @@ package de.webshop.entities.relations;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class OrderProductsCompositeKey implements Serializable {
      * @param orderId   non-null
      * @param productId non-null
      */
-    public OrderProductsCompositeKey(@NotNull long orderId, @NotNull long productId) {
+    public OrderProductsCompositeKey(@NotNull @PositiveOrZero long orderId, @NotNull @PositiveOrZero long productId) {
         this.orderId = orderId;
         this.productId = productId;
     }

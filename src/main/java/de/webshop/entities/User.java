@@ -2,10 +2,12 @@ package de.webshop.entities;
 
 
 import de.webshop.constants.UserPermission;
+import de.webshop.constants.converter.UserPermissionConverter;
 import de.webshop.dataTransferObjects.RegistrationData;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -63,6 +65,7 @@ public class User {
     private String lastName;
 
     @Column(name = "USER_PERMISSION", nullable = false, length = 128)
+    @Convert(converter = UserPermissionConverter.class)
     private UserPermission userPermission;
 
     /**

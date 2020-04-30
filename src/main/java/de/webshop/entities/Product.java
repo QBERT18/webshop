@@ -1,9 +1,11 @@
 package de.webshop.entities;
 
 import de.webshop.constants.ProductCategory;
+import de.webshop.constants.converter.ProductCategoryConverter;
 import de.webshop.entities.relations.OrderProducts;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -55,6 +57,7 @@ public class Product {
     private String description;
 
     @Column(name = "CATEGORY", nullable = false)
+    @Convert(converter = ProductCategoryConverter.class)
     private ProductCategory category;
 
     /**
@@ -64,7 +67,7 @@ public class Product {
      * @param price       >= 0
      * @param stock       >= 0
      * @param description not-null
-     * @param category not-null
+     * @param category    not-null
      */
     public Product(@NotNull String productName, @PositiveOrZero double price, @PositiveOrZero int stock, @NotNull String description, @NotNull ProductCategory category) {
         this.productName = productName;
@@ -137,7 +140,7 @@ public class Product {
     }
 
     public ProductCategory getCategory() {
-        return this.category;
+        return category;
     }
 
     public void setCategory(ProductCategory category) {
