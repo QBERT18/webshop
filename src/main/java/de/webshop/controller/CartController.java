@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,8 +24,14 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public String cartProduct(Model model, @RequestParam(value = "id") Long id) throws ProductDbServiceException {
-        model.addAttribute("product", productDbService.getProductById(id));
+    public String cart() {
         return "cart/cart";
     }
+
+    /*@GetMapping("/cart/product")
+    public String cartProduct(Model model, @RequestParam(value = "id") Long id, @RequestParam(value = "timestamp") String timestamp) throws ProductDbServiceException {
+        model.addAttribute("product", productDbService.getProductById(id));
+        model.addAttribute("timestamp", timestamp);
+        return "cart/cart";
+    }*/
 }
