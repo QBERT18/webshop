@@ -11,7 +11,7 @@
             <div th:replace="parts/parts.html :: nav"></div>
         </header>
         <main class="main-products-detail-page-body">
-            <form th:action="@{/products/addToCart}" th:object="${order}" class="jumbotron products-detail-form">
+            <form th:action="@{/products/addToCart}" th:object="${order}" class="jumbotron products-detail-form" method="POST">
                 <div class="products-detail-left-col">
                     <picture class="parallax-image">
                         <source media="(max-width: 1019px)" th:srcset="${#lists.toList(product.get().getImageUrls().split(',')).get(1)}">
@@ -24,8 +24,8 @@
                     <div class="products-detail-right-col-header" th:text="${product.get().getProductName()}"></div>
                     <div class="products-detail-right-col-description" th:text="${product.get().getDescription()}"></div>
                     <div class="products-detail-right-col-price" th:text="${'Current Price: ' + product.get().getPrice()}"></div>
-                    <input type="hidden" th:name="id" th:value="${product.get().getProductId()}">
-                    <input type="hidden" th:name="timestamp" th:value="${#calendars.format(#calendars.createNow(), 'YYYY-MM-DD HH:MM:SS')}">
+                    <input type="hidden" th:name="deliveryTime" th:value="${controller.getDeliveryDate(#calendars.createNow())}" th:field="*{deliverTime}"></input>
+                    <input type="hidden" th:name="orderStatus" th:value="${orderStatus}" th:field="*{orderStatus}"></input>
                     <button type="submit" class="btn products-detail-add-to-cart">Add to Cart</button>
                 </div>
             </form>

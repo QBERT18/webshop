@@ -1,8 +1,16 @@
 package de.webshop.entities;
 
 import de.webshop.constants.OrderStatus;
+import de.webshop.constants.UserPermission;
 import de.webshop.constants.converter.OrderStatusConverter;
+import de.webshop.dataTransferObjects.OrderData;
+import de.webshop.dataTransferObjects.RegistrationData;
+import de.webshop.db.dataAccessObjects.OrderRepository;
+import de.webshop.db.dataAccessObjects.ProductRepository;
+import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.relations.OrderProducts;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -125,6 +133,11 @@ public class Order {
 
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    // TODO move this into some kind of factory and declare a checked custom Exception
+    public static Order from(final OrderRepository orderRepository, final OrderStatus orderStatus) throws IllegalArgumentException {
+        return new Order(orderRepository.findAll().iterator().next().getUser(), LocalDateTime.now(), orderStatus);
     }
 
     @Override
