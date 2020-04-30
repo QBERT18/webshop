@@ -29,7 +29,7 @@ public class ProductDbServiceImpl implements ProductDbService {
     @Override
     public List<Product> getProductByCategory(ProductCategory productCategory) throws ProductDbServiceException {
         if (productCategory == null) {
-            throw new ProductDbServiceException("OrderStatus was null");
+            throw new ProductDbServiceException("Product Category was null");
         } else {
             return productRepository.getProductByCategory(productCategory);
         }
