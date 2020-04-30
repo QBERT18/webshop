@@ -65,6 +65,9 @@ public class User {
     @Column(name = "USER_PERMISSION", nullable = false, length = 128)
     private UserPermission userPermission;
 
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
     /**
      * User Constructor.
      *
@@ -87,6 +90,7 @@ public class User {
         this.deliveryAddress = deliveryAddress;
         this.billAddress = billAddress;
         this.userPermission = userPermission;
+        this.enabled = false;
     }
 
     /**

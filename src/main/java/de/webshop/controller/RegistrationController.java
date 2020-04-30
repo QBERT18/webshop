@@ -3,7 +3,10 @@ package de.webshop.controller;
 import de.webshop.dataTransferObjects.AddressData;
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.db.dataAccessObjects.UserRepository;
+import de.webshop.entities.VerificationToken;
+import de.webshop.services.MailService;
 import de.webshop.services.UserDbService;
+import de.webshop.services.exceptions.MailServiceException;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,17 +18,19 @@ import javax.validation.Valid;
 
 
 @Controller
-public class RegistrationController extends BaseController{
+public class RegistrationController extends BaseController {
     private final String TEMPLATE_REGISTRATION = "registration/registration";
     private final String ROUTE_REGISTRATION = "/registration";
 
     private final UserDbService userDbService;
     private final UserRepository userRepository;
+    private final MailService mailService;
 
     @Autowired
-    public RegistrationController(final UserDbService userDbService, UserRepository userRepository) {
+    public RegistrationController(final UserDbService userDbService, UserRepository userRepository, MailService mailService) {
         this.userDbService = userDbService;
         this.userRepository = userRepository;
+        this.mailService = mailService;
     }
 
     @GetMapping(ROUTE_REGISTRATION)
@@ -38,21 +43,24 @@ public class RegistrationController extends BaseController{
     @PostMapping(ROUTE_REGISTRATION)
     public String registerNewUser(Model model, @Valid @ModelAttribute("registrationData") RegistrationData registrationData, BindingResult bindingResultRegistrationData,
                                   @Valid @ModelAttribute("addressData") AddressData addressData, BindingResult bindingResultAddressData) {
-        if(bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
+        if (bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
             return TEMPLATE_REGISTRATION;
         } else {
             try {
                 registrationData.setAddressData(addressData);
-                if (userRepository.getUserByEmail(registrationData.getEmail()) == null) {
-                    userDbService.registerNewUser(registrationData);
-                } else {
-                    model.addAttribute("message", "User with this Email Adress already exists!");
+                if (userRepository.getUserByEmail(registrationData.getEmail()) != null) {
+                    model.addAttribute("message", "User with this Email Address already exists!");
                     return TEMPLATE_REGISTRATION;
+                } else {
+                    userDbService.registerNewUser(registrationData);
+                    //generateToken(registrationData.getEmail());
+                    mailService.sendVerificationMail(registrationData.getEmail());
                 }
-            } catch (UserDbServiceException ex) {
+            } catch (UserDbServiceException | MailServiceException ex) {
                 ex.printStackTrace();
             }
         }
         return redirect("home");
     }
+
 }

@@ -2,9 +2,11 @@ package de.webshop.services.impl;
 
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.dataTransferObjects.UserUpdateData;
+import de.webshop.db.dataAccessObjects.TokenRepository;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.Address;
 import de.webshop.entities.User;
+import de.webshop.entities.VerificationToken;
 import de.webshop.services.AddressDbService;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.AddressDbServiceException;
@@ -21,14 +23,16 @@ import java.util.Optional;
 public class UserDbServiceImpl implements UserDbService {
 
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressDbService addressDbService;
 
     @Autowired
-    public UserDbServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AddressDbService addressDbService) {
+    public UserDbServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AddressDbService addressDbService, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressDbService = addressDbService;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -66,5 +70,11 @@ public class UserDbServiceImpl implements UserDbService {
             user.setEmail(userUpdateData.getEmail());
         }
         return user;
+    }
+
+    @Override
+    public void createVerificationToken(User user, String token) {
+        VerificationToken newUserToken = new VerificationToken(user, token);
+        tokenRepository.save(newUserToken);
     }
 }

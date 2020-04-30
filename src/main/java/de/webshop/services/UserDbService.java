@@ -22,4 +22,11 @@ public interface UserDbService {
      * @return the updated user
      */
     User updateUser(User user, UserUpdateData userUpdateData) throws UserDbServiceException;
+
+    /**
+     * @param user  the soon to be user
+     * @param token the token to verify the user
+     */
+    public void createVerificationToken(User user, String token);
+
 }
