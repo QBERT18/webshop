@@ -13,19 +13,19 @@ import java.util.stream.Collectors;
  */
 public class DeepCopyUtility {
 
-    public static <O extends DeepCopy<O>> List<O> bulkDeepCopy(List<O> listToCopy) {
+    public static <O extends DeepCopy<O>> List<O> bulkDeepCopy(final List<O> listToCopy) {
         if (listToCopy == null) {
             return null;
         } else {
-            return listToCopy.stream().map(O::deepCopy).collect(Collectors.toList());
+            return listToCopy.stream().map(DeepCopyUtility::nullSafeDeepCopy).collect(Collectors.toList());
         }
     }
 
-    public static <O extends DeepCopy<O>> Set<O> bulkDeepCopy(Set<O> setToCopy) {
+    public static <O extends DeepCopy<O>> Set<O> bulkDeepCopy(final Set<O> setToCopy) {
         if (setToCopy == null) {
             return null;
         } else {
-            return setToCopy.stream().map(O::deepCopy).collect(Collectors.toSet());
+            return setToCopy.stream().map(DeepCopyUtility::nullSafeDeepCopy).collect(Collectors.toSet());
         }
     }
 
