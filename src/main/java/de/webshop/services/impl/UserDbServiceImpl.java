@@ -1,10 +1,11 @@
 package de.webshop.services.impl;
 
 import de.webshop.dataTransferObjects.RegistrationData;
-import de.webshop.dataTransferObjects.UserUpdateData;
+import de.webshop.db.dataAccessObjects.TokenRepository;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.Address;
 import de.webshop.entities.User;
+import de.webshop.entities.VerificationToken;
 import de.webshop.services.AddressDbService;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.AddressDbServiceException;
@@ -15,20 +16,27 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service("userDbService")
 public class UserDbServiceImpl implements UserDbService {
 
+    private static final int VERIFICATION_TOKEN_EXPIRY_TIME_IN_HOURS = 24;
+
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final AddressDbService addressDbService;
 
     @Autowired
-    public UserDbServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AddressDbService addressDbService) {
+    public UserDbServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, AddressDbService addressDbService, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressDbService = addressDbService;
+        this.tokenRepository = tokenRepository;
     }
 
     @Override
@@ -39,6 +47,11 @@ public class UserDbServiceImpl implements UserDbService {
     @Override
     public Optional<User> getUserByEmail(String email) {
         return Optional.ofNullable(userRepository.getUserByEmail(email));
+    }
+
+    @Override
+    public Optional<User> getUserById(final long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
@@ -61,10 +74,22 @@ public class UserDbServiceImpl implements UserDbService {
     }
 
     @Override
-    public User updateUser(User user, UserUpdateData userUpdateData) {
-        if (!user.getEmail().equals(userUpdateData.getEmail())) {
-            user.setEmail(userUpdateData.getEmail());
+    public User updateUser(User oldUser, User newUser) throws UserDbServiceException {
+        if (oldUser.getUserId() != newUser.getUserId()) {
+            throw new UserDbServiceException("Tried to update user with data from an user with different userID: old user:"
+                    + oldUser + ", new user: " + newUser);
+        } else {
+            return userRepository.save(newUser);
         }
-        return user;
+    }
+
+    @Override
+    public VerificationToken createVerificationToken(User user) {
+        final VerificationToken newUserToken = new VerificationToken(user, UUID.randomUUID().toString());
+        final LocalDateTime nowAtUtc = LocalDateTime.now(ZoneOffset.UTC);
+        newUserToken.setCreated(nowAtUtc);
+        newUserToken.setExpiryDate(nowAtUtc.plusHours(VERIFICATION_TOKEN_EXPIRY_TIME_IN_HOURS));
+        tokenRepository.save(newUserToken);
+        return new VerificationToken(newUserToken);
     }
 }

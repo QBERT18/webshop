@@ -68,6 +68,9 @@ public class User {
     @Convert(converter = UserPermissionConverter.class)
     private UserPermission userPermission;
 
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
     /**
      * User Constructor.
      *
@@ -82,7 +85,7 @@ public class User {
     public User(final @NotNull @NotEmpty String email, final @NotNull @NotEmpty String password,
                 final @NotNull @NotEmpty String firstName, final @NotNull @NotEmpty String lastName,
                 final @NotNull Address deliveryAddress, final Address billAddress,
-                final @NotNull UserPermission userPermission) {
+                final @NotNull UserPermission userPermission, final boolean enabled) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -90,6 +93,23 @@ public class User {
         this.deliveryAddress = deliveryAddress;
         this.billAddress = billAddress;
         this.userPermission = userPermission;
+        this.enabled = enabled;
+    }
+
+    /**
+     * Deep Copy constructor.
+     *
+     * @param user the new user data for this object
+     */
+    public User(final User user) {
+        email = user.email;
+        password = user.password;
+        firstName = user.firstName;
+        lastName = user.lastName;
+        deliveryAddress = new Address(user.deliveryAddress);
+        billAddress = new Address(user.billAddress);
+        userPermission = user.userPermission;
+        enabled = user.enabled;
     }
 
     /**
@@ -108,7 +128,7 @@ public class User {
             final String password = passwordEncoder.encode(registrationData.getPassword());
             final Address newDeliveryAddress = deliveryAddress != null ? deliveryAddress : Address.from(registrationData.getAddressData());
             return new User(registrationData.getEmail(), password, registrationData.getFirstName(), registrationData.getLastName(),
-                    newDeliveryAddress, null, UserPermission.RESTRICTED);
+                    newDeliveryAddress, null, UserPermission.RESTRICTED, false);
         }
     }
 
@@ -184,6 +204,13 @@ public class User {
         this.billAddress = billAddress;
     }
 
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     @Override
     public boolean equals(Object o) {

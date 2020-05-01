@@ -71,6 +71,18 @@ public class Address {
     }
 
     /**
+     * Deep Copy constructor.
+     *
+     * @param address the address data
+     */
+    public Address(final Address address) {
+        countryCode = address.countryCode;
+        zipCode = address.zipCode;
+        city = address.city;
+        street = address.street;
+    }
+
+    /**
      * empty Constructor for JPA
      */
     public Address() {
