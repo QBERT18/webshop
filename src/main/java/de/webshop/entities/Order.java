@@ -3,6 +3,7 @@ package de.webshop.entities;
 import de.webshop.constants.OrderStatus;
 import de.webshop.constants.converter.OrderStatusConverter;
 import de.webshop.entities.relations.OrderProducts;
+import de.webshop.util.DeepCopyUtility;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +22,6 @@ import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "ORDERS")
@@ -97,7 +97,7 @@ public class Order extends AbstractDbEntity<Order> {
     public Order deepCopy() {
         final Order copy = new Order();
         copy.orderId = orderId;
-        copy.orderProducts = orderProducts != null ? orderProducts.stream().map(OrderProducts::deepCopy).collect(Collectors.toList()) : null;
+        copy.orderProducts = DeepCopyUtility.bulkDeepCopy(orderProducts);
         copy.orderTime = orderTime != null ? LocalDateTime.from(orderTime) : null;
         copy.deliverTime = deliverTime != null ? LocalDateTime.from(deliverTime) : null;
         copy.status = status;

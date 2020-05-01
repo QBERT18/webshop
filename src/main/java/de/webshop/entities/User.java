@@ -4,6 +4,7 @@ package de.webshop.entities;
 import de.webshop.constants.UserPermission;
 import de.webshop.constants.converter.UserPermissionConverter;
 import de.webshop.dataTransferObjects.RegistrationData;
+import de.webshop.util.DeepCopyUtility;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
@@ -20,7 +21,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USERS")
@@ -107,9 +107,9 @@ public class User extends AbstractDbEntity<User> {
     public User deepCopy() {
         final User copy = new User();
         copy.userId = userId;
-        copy.orders = orders != null ? orders.stream().map(Order::deepCopy).collect(Collectors.toSet()) : null;
-        copy.deliveryAddress = deliveryAddress != null ? deliveryAddress.deepCopy() : null;
-        copy.billAddress = billAddress != null ? billAddress.deepCopy() : null;
+        copy.orders = DeepCopyUtility.bulkDeepCopy(orders);
+        copy.deliveryAddress = DeepCopyUtility.nullSafeDeepCopy(deliveryAddress);
+        copy.billAddress = DeepCopyUtility.nullSafeDeepCopy(billAddress);
         copy.email = email;
         copy.password = password;
         copy.firstName = firstName;

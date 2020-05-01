@@ -1,5 +1,7 @@
 package de.webshop.entities;
 
+import de.webshop.util.DeepCopyUtility;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -70,7 +72,7 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
     public VerificationToken deepCopy() {
         final VerificationToken copy = new VerificationToken();
         copy.id = id;
-        copy.user = user != null ? user.deepCopy() : null;
+        copy.user = DeepCopyUtility.nullSafeDeepCopy(user);
         copy.token = token;
         copy.createdDate = createdDate != null ? LocalDateTime.from(createdDate) : null;
         copy.expiryDate = expiryDate != null ? LocalDateTime.from(expiryDate) : null;

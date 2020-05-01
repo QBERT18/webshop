@@ -3,6 +3,7 @@ package de.webshop.entities;
 import de.webshop.constants.ProductCategory;
 import de.webshop.constants.converter.ProductCategoryConverter;
 import de.webshop.entities.relations.OrderProducts;
+import de.webshop.util.DeepCopyUtility;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -16,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "PRODUCTS")
@@ -88,7 +88,7 @@ public class Product extends AbstractDbEntity<Product> {
     public Product deepCopy() {
         final Product product = new Product();
         product.productId = productId;
-        product.orderProducts = orderProducts != null ? orderProducts.stream().map(OrderProducts::deepCopy).collect(Collectors.toList()) : null;
+        product.orderProducts = DeepCopyUtility.bulkDeepCopy(orderProducts);
         product.productName = productName;
         product.price = price;
         product.stock = stock;

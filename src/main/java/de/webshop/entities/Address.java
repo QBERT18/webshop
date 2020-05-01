@@ -1,6 +1,7 @@
 package de.webshop.entities;
 
 import de.webshop.dataTransferObjects.AddressData;
+import de.webshop.util.DeepCopyUtility;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "ADDRESSES")
@@ -81,8 +81,8 @@ public class Address extends AbstractDbEntity<Address> {
     public Address deepCopy() {
         final Address copy = new Address();
         copy.addressId = addressId;
-        copy.usersWithThisDeliveryAddress = usersWithThisDeliveryAddress != null ? usersWithThisDeliveryAddress.stream().map(User::deepCopy).collect(Collectors.toList()) : null;
-        copy.usersWithThisBillAddress = usersWithThisBillAddress != null ? usersWithThisBillAddress.stream().map(User::deepCopy).collect(Collectors.toList()) : null;
+        copy.usersWithThisDeliveryAddress = DeepCopyUtility.bulkDeepCopy(usersWithThisDeliveryAddress);
+        copy.usersWithThisBillAddress = DeepCopyUtility.bulkDeepCopy(usersWithThisBillAddress);
         copy.countryCode = countryCode;
         copy.zipCode = zipCode;
         copy.city = city;
