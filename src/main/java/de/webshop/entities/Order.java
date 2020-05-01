@@ -21,10 +21,11 @@ import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "ORDERS")
-public class Order {
+public class Order extends AbstractDbEntity<Order> {
 
     /*
      * ID
@@ -58,25 +59,49 @@ public class Order {
 
     @Column(name = "ORDER_STATUS", nullable = false)
     @Convert(converter = OrderStatusConverter.class)
-    private OrderStatus orderStatus;
+    private OrderStatus status;
 
     /**
      * Order constructor.
      *
-     * @param user        non-null
-     * @param orderTime   non-null
-     * @param orderStatus non-null
+     * @param user      non-null
+     * @param orderTime non-null
+     * @param status    non-null
      */
-    public Order(@NotNull User user, @NotNull @PastOrPresent LocalDateTime orderTime, @NotNull OrderStatus orderStatus) {
+    public Order(@NotNull User user, @NotNull @PastOrPresent LocalDateTime orderTime, @NotNull OrderStatus status) {
         this.user = user;
         this.orderTime = orderTime;
-        this.orderStatus = orderStatus;
+        this.status = status;
+    }
+
+    /**
+     * Deep Copy Constructor.
+     *
+     * @param order the order to copy from
+     */
+    public Order(final Order order) {
+        orderId = order.orderId;
+        user = order.user;
+        orderProducts = order.orderProducts;
+        deliverTime = order.deliverTime;
+        status = order.status;
     }
 
     /**
      * empty Constructor for JPA
      */
     public Order() {
+    }
+
+    @Override
+    public Order deepCopy() {
+        final Order copy = new Order();
+        copy.orderId = orderId;
+        copy.orderProducts = orderProducts != null ? orderProducts.stream().map(OrderProducts::deepCopy).collect(Collectors.toList()) : null;
+        copy.orderTime = orderTime != null ? LocalDateTime.from(orderTime) : null;
+        copy.deliverTime = deliverTime != null ? LocalDateTime.from(deliverTime) : null;
+        copy.status = status;
+        return copy;
     }
 
     public long getOrderId() {
@@ -119,12 +144,12 @@ public class Order {
         this.deliverTime = deliverTime;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     @Override
@@ -137,7 +162,7 @@ public class Order {
         }
         Order order = (Order) o;
         return orderId == order.orderId &&
-                orderStatus == order.orderStatus &&
+                status == order.status &&
                 user.equals(order.user) &&
                 Objects.equals(orderProducts, order.orderProducts) &&
                 orderTime.equals(order.orderTime) &&
@@ -146,7 +171,7 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, user, orderProducts, orderTime, deliverTime, orderStatus);
+        return Objects.hash(orderId, user, orderProducts, orderTime, deliverTime, status);
     }
 
     @Override
@@ -157,7 +182,7 @@ public class Order {
                 ", orderProducts=" + orderProducts +
                 ", orderTime=" + orderTime +
                 ", deliverTime=" + deliverTime +
-                ", orderStatus=" + orderStatus +
+                ", orderStatus=" + status +
                 '}';
     }
 }

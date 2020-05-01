@@ -20,10 +20,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User extends AbstractDbEntity<User> {
 
     /*
      * ID
@@ -97,25 +98,25 @@ public class User {
     }
 
     /**
-     * Deep Copy constructor.
-     *
-     * @param user the new user data for this object
-     */
-    public User(final User user) {
-        email = user.email;
-        password = user.password;
-        firstName = user.firstName;
-        lastName = user.lastName;
-        deliveryAddress = new Address(user.deliveryAddress);
-        billAddress = new Address(user.billAddress);
-        userPermission = user.userPermission;
-        enabled = user.enabled;
-    }
-
-    /**
      * empty Constructor for JPA
      */
     public User() {
+    }
+
+    @Override
+    public User deepCopy() {
+        final User copy = new User();
+        copy.userId = userId;
+        copy.orders = orders != null ? orders.stream().map(Order::deepCopy).collect(Collectors.toSet()) : null;
+        copy.deliveryAddress = deliveryAddress != null ? deliveryAddress.deepCopy() : null;
+        copy.billAddress = billAddress != null ? billAddress.deepCopy() : null;
+        copy.email = email;
+        copy.password = password;
+        copy.firstName = firstName;
+        copy.lastName = lastName;
+        copy.userPermission = userPermission;
+        copy.enabled = enabled;
+        return copy;
     }
 
     // TODO move this into some kind of factory and declare a checked custom Exception

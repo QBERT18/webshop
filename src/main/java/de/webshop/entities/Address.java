@@ -14,10 +14,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "ADDRESSES")
-public class Address {
+public class Address extends AbstractDbEntity<Address> {
 
     /*
      * ID
@@ -71,21 +72,22 @@ public class Address {
     }
 
     /**
-     * Deep Copy constructor.
-     *
-     * @param address the address data
-     */
-    public Address(final Address address) {
-        countryCode = address.countryCode;
-        zipCode = address.zipCode;
-        city = address.city;
-        street = address.street;
-    }
-
-    /**
      * empty Constructor for JPA
      */
     public Address() {
+    }
+
+    @Override
+    public Address deepCopy() {
+        final Address copy = new Address();
+        copy.addressId = addressId;
+        copy.usersWithThisDeliveryAddress = usersWithThisDeliveryAddress != null ? usersWithThisDeliveryAddress.stream().map(User::deepCopy).collect(Collectors.toList()) : null;
+        copy.usersWithThisBillAddress = usersWithThisBillAddress != null ? usersWithThisBillAddress.stream().map(User::deepCopy).collect(Collectors.toList()) : null;
+        copy.countryCode = countryCode;
+        copy.zipCode = zipCode;
+        copy.city = city;
+        copy.street = street;
+        return copy;
     }
 
     // TODO move this into some kind of factory and declare a checked custom Exception
@@ -174,5 +176,18 @@ public class Address {
     @Override
     public int hashCode() {
         return Objects.hash(addressId, usersWithThisDeliveryAddress, usersWithThisBillAddress, countryCode, zipCode, city, street);
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "addressId=" + addressId +
+                ", usersWithThisDeliveryAddress=" + usersWithThisDeliveryAddress +
+                ", usersWithThisBillAddress=" + usersWithThisBillAddress +
+                ", countryCode='" + countryCode + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                '}';
     }
 }

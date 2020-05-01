@@ -16,10 +16,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "PRODUCTS")
-public class Product {
+public class Product extends AbstractDbEntity<Product> {
 
     /*
      * ID
@@ -81,6 +82,20 @@ public class Product {
      * empty Constructor for JPA
      */
     public Product() {
+    }
+
+    @Override
+    public Product deepCopy() {
+        final Product product = new Product();
+        product.productId = productId;
+        product.orderProducts = orderProducts != null ? orderProducts.stream().map(OrderProducts::deepCopy).collect(Collectors.toList()) : null;
+        product.productName = productName;
+        product.price = price;
+        product.stock = stock;
+        product.imageUrls = imageUrls;
+        product.description = description;
+        product.category = category;
+        return product;
     }
 
     public long getProductId() {

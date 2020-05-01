@@ -35,7 +35,7 @@ public class RegistrationEmailListener implements ApplicationListener<OnRegistra
 
     private void confirmRegistration(OnRegistrationSuccessEvent event) throws UserDbServiceException {
         final User dbUser = userDbService.getUserById(event.getUser().getUserId()).orElseThrow(UserDbServiceException::new);
-        final User updatedUser = new User(dbUser);
+        final User updatedUser = dbUser.deepCopy();
         updatedUser.setEnabled(true);
         updatedUser.setUserPermission(UserPermission.STANDARD);
         userDbService.updateUser(dbUser, updatedUser);

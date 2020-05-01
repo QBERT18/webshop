@@ -1,5 +1,6 @@
 package de.webshop.entities.relations;
 
+import de.webshop.entities.AbstractDbEntity;
 import de.webshop.entities.Order;
 import de.webshop.entities.Product;
 
@@ -19,7 +20,7 @@ import java.util.Objects;
 @Table(name = "ORDER_PRODUCTS", indexes = {
         @Index(name = "index_order_id", columnList = "ORDER_ID"),
         @Index(name = "index_product_id", columnList = "PRODUCT_ID")})
-public class OrderProducts {
+public class OrderProducts extends AbstractDbEntity<OrderProducts> {
 
     /*
      * ID
@@ -30,10 +31,10 @@ public class OrderProducts {
     @EmbeddedId
     private OrderProductsCompositeKey key;
 
+
     /*
      * RELATIONS
      */
-
     @ManyToOne
     @MapsId("ORDER_ID")
     @JoinColumn(name = "ORDER_ID", nullable = false)
@@ -44,10 +45,10 @@ public class OrderProducts {
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
 
+
     /*
      * FIELDS
      */
-
     @Column(name = "PRODUCT_COUNT", nullable = false)
     private int productCount;
 
@@ -68,6 +69,16 @@ public class OrderProducts {
      * empty Constructor for JPA
      */
     public OrderProducts() {
+    }
+
+    @Override
+    public OrderProducts deepCopy() {
+        final OrderProducts copy = new OrderProducts();
+        copy.key = new OrderProductsCompositeKey(key.getOrderId(), key.getProductId());
+        copy.order = order.deepCopy();
+        copy.product = product.deepCopy();
+        copy.productCount = productCount;
+        return copy;
     }
 
     public OrderProductsCompositeKey getKey() {

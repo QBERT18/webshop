@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "VERIFICATION_TOKEN")
-public class VerificationToken {
+public class VerificationToken extends AbstractDbEntity<VerificationToken> {
 
     private static final int EXPIRATION = 60 * 24; // why is this unused?
 
@@ -60,18 +60,21 @@ public class VerificationToken {
         this.token = token;
     }
 
-    public VerificationToken(final VerificationToken verificationToken) {
-        id = verificationToken.id;
-        user = verificationToken.user;
-        token = verificationToken.token;
-        createdDate = verificationToken.createdDate;
-        expiryDate = verificationToken.expiryDate;
-    }
-
     /**
      * empty Constructor for JPA
      */
     public VerificationToken() {
+    }
+
+    @Override
+    public VerificationToken deepCopy() {
+        final VerificationToken copy = new VerificationToken();
+        copy.id = id;
+        copy.user = user != null ? user.deepCopy() : null;
+        copy.token = token;
+        copy.createdDate = createdDate != null ? LocalDateTime.from(createdDate) : null;
+        copy.expiryDate = expiryDate != null ? LocalDateTime.from(expiryDate) : null;
+        return copy;
     }
 
     private static Date calculateExpiryDate(int expiryTimeInMinutes) { // why is this unused?

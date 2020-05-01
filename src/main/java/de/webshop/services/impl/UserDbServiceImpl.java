@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -86,10 +85,10 @@ public class UserDbServiceImpl implements UserDbService {
     @Override
     public VerificationToken createVerificationToken(User user) {
         final VerificationToken newUserToken = new VerificationToken(user, UUID.randomUUID().toString());
-        final LocalDateTime nowAtUtc = LocalDateTime.now(ZoneOffset.UTC);
+        final LocalDateTime nowAtUtc = LocalDateTime.now(); // TODO use user timezone instead of system timezone
         newUserToken.setCreated(nowAtUtc);
         newUserToken.setExpiryDate(nowAtUtc.plusHours(VERIFICATION_TOKEN_EXPIRY_TIME_IN_HOURS));
         tokenRepository.save(newUserToken);
-        return new VerificationToken(newUserToken);
+        return newUserToken.deepCopy();
     }
 }
