@@ -15,6 +15,8 @@ import de.webshop.services.exceptions.OrderDbServiceException;
 import de.webshop.services.exceptions.ProductDbServiceException;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,10 +78,12 @@ public class ProductsController {
 
     @GetMapping("/products/product-detail")
     public String productDetail(Model model, @RequestParam(value = "id") Long id) throws ProductDbServiceException, UserDbServiceException, OrderDbServiceException {
-        String email = securityService.findLoggedInUsername();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
         Optional<User> user = userDbService.getUserByEmail(email);
         model.addAttribute("product", productDbService.getProductById(id));
-        model.addAttribute("user", securityService.findLoggedInUsername());
+        model.addAttribute("user", user.get());
+        model.addAttribute("orderData", new OrderData(user.get(), productDbService.getProductById(id).get(), 1));
         if (user.isPresent()) {
             model.addAttribute("order", orderDbService.getOrderByUserId(user.get().getUserId()));
         }
@@ -91,7 +95,7 @@ public class ProductsController {
         long userId = orderData.getUser().getUserId();
         List<Order> orders = orderDbService.getOrderByUserId(userId);
         long nrOfOpenOrders = orders.stream().filter(order -> order.getStatus().equals(OrderStatus.OPEN)).count();
-        if (nrOfOpenOrders > 1 || nrOfOpenOrders == 0) {
+        if (nrOfOpenOrders > 1) {
             throw new OrderDbServiceException("Found more or less open orders than expected for user " + orderData.getUser());
         } else {
             final Optional<Order> openOrder = orders.stream().filter(order -> OrderStatus.OPEN.equals(order.getStatus())).findFirst();
@@ -99,9 +103,11 @@ public class ProductsController {
                 // add product to existing order
                 final Order order = openOrder.get();
                 orderDbService.addProductToOrder(order, orderData.getProduct(), orderData.getProductCount());
+                model.addAttribute("message", "Das Produkt wurde zu Ihrem Cart hinzugefügt");
             } else {
                 // add product to new order
                 orderDbService.addOrder(orderData);
+                model.addAttribute("message", "Das Produkt wurde zu nicht Ihrem Cart hinzugefügt");
             }
         }
         return "products/productDetails/productDetails";

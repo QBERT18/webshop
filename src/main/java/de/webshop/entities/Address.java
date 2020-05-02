@@ -177,17 +177,4 @@ public class Address extends AbstractDbEntity<Address> {
     public int hashCode() {
         return Objects.hash(addressId, usersWithThisDeliveryAddress, usersWithThisBillAddress, countryCode, zipCode, city, street);
     }
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "addressId=" + addressId +
-                ", usersWithThisDeliveryAddress=" + usersWithThisDeliveryAddress +
-                ", usersWithThisBillAddress=" + usersWithThisBillAddress +
-                ", countryCode='" + countryCode + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                '}';
-    }
 }

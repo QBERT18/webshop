@@ -150,15 +150,4 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
     public int hashCode() {
         return Objects.hash(id, token, user, createdDate, expiryDate);
     }
-
-    @Override
-    public String toString() {
-        return "VerificationToken{" +
-                "id=" + id +
-                ", token='" + token + '\'' +
-                ", user=" + user +
-                ", createdDate=" + createdDate +
-                ", expiryDate=" + expiryDate +
-                '}';
-    }
 }

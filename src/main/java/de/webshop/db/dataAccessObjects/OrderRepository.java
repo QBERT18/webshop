@@ -13,5 +13,5 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     List<Product> getProductsByOrderId(long orderId);
 
-    List<Order> getOrderByUserId(long userId);
+    List<Order> getOrdersByUser(long user);
 }

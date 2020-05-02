@@ -237,19 +237,4 @@ public class User extends AbstractDbEntity<User> {
     public int hashCode() {
         return Objects.hash(userId, orders, deliveryAddress, billAddress, email, password, firstName, lastName, userPermission);
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", orders=" + orders +
-                ", deliveryAddress=" + deliveryAddress +
-                ", billAddress=" + billAddress +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userPermission=" + userPermission +
-                '}';
-    }
 }

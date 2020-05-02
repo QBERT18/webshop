@@ -179,16 +179,4 @@ public class Order extends AbstractDbEntity<Order> {
     public int hashCode() {
         return Objects.hash(orderId, user, orderProducts, orderTime, deliverTime, status);
     }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", user=" + user +
-                ", orderProducts=" + orderProducts +
-                ", orderTime=" + orderTime +
-                ", deliverTime=" + deliverTime +
-                ", orderStatus=" + status +
-                '}';
-    }
 }

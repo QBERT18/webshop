@@ -14,7 +14,4 @@ public abstract class AbstractDbEntity<T extends AbstractDbEntity<?>> implements
 
     @Override
     public abstract int hashCode();
-
-    @Override
-    public abstract String toString();
 }
