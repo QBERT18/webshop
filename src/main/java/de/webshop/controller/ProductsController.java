@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Controller
-public class ProductsController {
+public class ProductsController extends BaseController {
 
     private final ProductDbService productDbService;
     private final OrderDbService orderDbService;
@@ -110,6 +110,6 @@ public class ProductsController {
                 model.addAttribute("message", "Das Produkt wurde zu nicht Ihrem Cart hinzugefügt");
             }
         }
-        return "products/productDetails/productDetails";
+        return redirect("/cart");
     }
 }

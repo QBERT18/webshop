@@ -141,13 +141,12 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
         VerificationToken that = (VerificationToken) o;
         return id == that.id &&
                 Objects.equals(token, that.token) &&
-                Objects.equals(user, that.user) &&
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(expiryDate, that.expiryDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, token, user, createdDate, expiryDate);
+        return Objects.hash(id, token, createdDate, expiryDate);
     }
 }
