@@ -14,6 +14,7 @@
     <div class="registration-form container">
         <div class="registration-form-content container">
             <form class="jumbotron" th:action="@{/login}" method="POST">
+                <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
                 <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="text" name="username" class="form-control" id="email" aria-describedby="email"

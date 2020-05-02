@@ -1,27 +1,39 @@
 package de.webshop.controller;
 
 import de.webshop.constants.ProductCategory;
+import de.webshop.dataTransferObjects.OrderData;
+import de.webshop.db.dataAccessObjects.OrderRepository;
 import de.webshop.entities.Product;
+import de.webshop.services.OrderDbService;
 import de.webshop.services.ProductDbService;
+import de.webshop.services.exceptions.OrderDbServiceException;
 import de.webshop.services.exceptions.ProductDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class ProductsController {
 
     private final ProductDbService productDbService;
+    private final OrderDbService orderDbService;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public ProductsController(ProductDbService productDbService) {
+    public ProductsController(ProductDbService productDbService, OrderDbService orderDbService, OrderRepository orderRepository) {
         this.productDbService = productDbService;
+        this.orderDbService = orderDbService;
+        this.orderRepository = orderRepository;
     }
 
     @GetMapping("/products")
@@ -48,8 +60,26 @@ public class ProductsController {
 
     @GetMapping("/products/product-detail")
     public String productDetail(Model model, @RequestParam(value = "id") Long id) throws ProductDbServiceException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("product", productDbService.getProductById(id));
         return "products/productDetails/productDetails";
+    }
+
+    @PostMapping("/products/addToCart")
+    public String addProductToCart(Model model, @ModelAttribute("orderData") OrderData orderData, BindingResult bindingResultOrderData) throws OrderDbServiceException {
+        /*if(orderRepository.findAll().iterator().next().getOrderId()) {
+
+        } else {
+            model.addAttribute("message", "Dieses Produkt existiert schon in deinem Cart");
+        }*/
+        return "products/productDetails/productDetails";
+    }
+
+    public String getDeliveryDate(Calendar calendar) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        return simpleDateFormat.format(calendar.getTime());
     }
 
 }

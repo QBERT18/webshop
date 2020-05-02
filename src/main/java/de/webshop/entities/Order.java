@@ -2,6 +2,7 @@ package de.webshop.entities;
 
 import de.webshop.constants.OrderStatus;
 import de.webshop.constants.converter.OrderStatusConverter;
+import de.webshop.db.dataAccessObjects.OrderRepository;
 import de.webshop.entities.relations.OrderProducts;
 import de.webshop.util.DeepCopyUtility;
 
@@ -150,6 +151,11 @@ public class Order extends AbstractDbEntity<Order> {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    // TODO move this into some kind of factory and declare a checked custom Exception
+    public static Order from(final OrderRepository orderRepository, final OrderStatus orderStatus) throws IllegalArgumentException {
+        return new Order(orderRepository.findAll().iterator().next().getUser(), LocalDateTime.now(), orderStatus);
     }
 
     @Override
