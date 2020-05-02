@@ -18,4 +18,6 @@ public interface OrderDbService {
     List<Order> getOrdersByOrderStatus(OrderStatus orderStatus) throws OrderDbServiceException;
 
     List<Product> getProductsByOrderId(long orderId) throws OrderDbServiceException;
+
+    List<Order> getOrderByUserId(long userId) throws OrderDbServiceException;
 }

@@ -24,8 +24,8 @@
                     <div class="products-detail-right-col-header" th:text="${product.get().getProductName()}"></div>
                     <div class="products-detail-right-col-description" th:text="${product.get().getDescription()}"></div>
                     <div class="products-detail-right-col-price" th:text="${'Current Price: ' + product.get().getPrice()}"></div>
-                    <input type="hidden" th:name="deliveryTime" th:value="${controller.getDeliveryDate(#calendars.createNow())}" th:field="*{deliverTime}"></input>
-                    <input type="hidden" th:name="orderStatus" th:value="${orderStatus}" th:field="*{orderStatus}"></input>
+                    <!--<input type="hidden" th:name="deliveryTime" th:value="${controller.getDeliveryDate(#calendars.createNow())}" th:field="*{deliverTime}"></input>-->
+                    <!--<input type="hidden" th:name="orderStatus" th:value="${orderStatus}" th:field="*{orderStatus}"></input>-->
                     <button type="submit" class="btn products-detail-add-to-cart">Add to Cart</button>
                 </div>
             </form>

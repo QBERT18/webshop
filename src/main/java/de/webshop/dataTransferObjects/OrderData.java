@@ -1,49 +1,47 @@
 package de.webshop.dataTransferObjects;
 
 
-import de.webshop.constants.OrderStatus;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import de.webshop.entities.Product;
+import de.webshop.entities.User;
+
 import java.util.Objects;
 
 public class OrderData implements DataTransferObject {
 
-    @NotNull
-    @NotEmpty
-    private LocalDateTime orderTime;
+    private User user;
 
-    @NotNull
-    @NotEmpty
-    private LocalDateTime deliverTime;
+    private Product product;
 
-    @NotNull
-    @NotEmpty
-    private OrderStatus orderStatus;
+    private int productCount;
 
-
-    public LocalDateTime getOrderTime() {
-        return orderTime;
+    public OrderData(User user, Product product, int productCount) {
+        this.user = user;
+        this.product = product;
+        this.productCount = productCount;
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
-        this.orderTime = orderTime;
+    public User getUser() {
+        return user;
     }
 
-    public LocalDateTime getDeliverTime() {
-        return deliverTime;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setDeliverTime(LocalDateTime deliverTime) {
-        this.deliverTime = deliverTime;
+    public Product getProduct() {
+        return product;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public int getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
     }
 
     @Override
@@ -51,27 +49,27 @@ public class OrderData implements DataTransferObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderData orderData = (OrderData) o;
-        return Objects.equals(orderTime, orderData.orderTime) &&
-                Objects.equals(deliverTime, orderData.deliverTime) &&
-                orderStatus == orderData.orderStatus;
+        return productCount == orderData.productCount &&
+                Objects.equals(user, orderData.user) &&
+                Objects.equals(product, orderData.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderTime, deliverTime, orderStatus);
+        return Objects.hash(user, product, productCount);
     }
 
     @Override
     public String toString() {
         return "OrderData{" +
-                "orderTime=" + orderTime +
-                ", deliverTime=" + deliverTime +
-                ", orderStatus=" + orderStatus +
+                "user=" + user +
+                ", product=" + product +
+                ", productCount=" + productCount +
                 '}';
     }
 
     @Override
     public boolean isValid() {
-        return orderTime != null && deliverTime != null && orderStatus != null;
+        return this.user != null && this.product != null && this.productCount != 0;
     }
 }

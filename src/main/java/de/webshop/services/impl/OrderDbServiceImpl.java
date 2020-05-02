@@ -6,6 +6,7 @@ import de.webshop.db.dataAccessObjects.OrderRepository;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.Order;
 import de.webshop.entities.Product;
+import de.webshop.entities.User;
 import de.webshop.entities.relations.OrderProducts;
 import de.webshop.services.OrderDbService;
 import de.webshop.services.exceptions.OrderDbServiceException;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("orderDbService")
@@ -35,7 +37,7 @@ public class OrderDbServiceImpl implements OrderDbService {
         if (orderData == null) {
             throw new OrderDbServiceException("OrderData was null");
         } else {
-            orderRepository.save(Order.from(orderRepository, orderData.getOrderStatus()));
+            orderRepository.save(Order.from(orderData.getUser(), OrderStatus.OPEN));
         }
     }
 
@@ -65,6 +67,21 @@ public class OrderDbServiceImpl implements OrderDbService {
             final List<OrderProducts> orderProductsList = orderRepository.findById(orderId)
                     .map(Order::getOrderProducts).orElseGet(Collections::emptyList);
             return orderProductsList.stream().map(OrderProducts::getProduct).distinct().collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public List<Order> getOrderByUserId(long userId) throws OrderDbServiceException {
+        if (userId <= 0) {
+            throw new OrderDbServiceException("Illegal orderId" + userId);
+        } else {
+            Optional<User> user = userRepository.findById(userId);
+            if(user.isPresent()) {
+                Set<Order> order = user.get().getOrders();
+                return order.stream().collect(Collectors.toList());
+            } else {
+                throw new OrderDbServiceException("User not present" + userId);
+            }
         }
     }
 }
