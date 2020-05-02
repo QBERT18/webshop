@@ -5,7 +5,6 @@ import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.services.MailService;
 import de.webshop.services.UserDbService;
-import de.webshop.services.exceptions.MailServiceException;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.validation.Valid;
 
 
 @Controller
@@ -48,8 +45,8 @@ public class RegistrationController extends BaseController {
     }
 
     @PostMapping(ROUTE_REGISTRATION)
-    public String registerNewUser(Model model, @Valid @ModelAttribute("registrationData") RegistrationData registrationData, BindingResult bindingResultRegistrationData,
-                                  @Valid @ModelAttribute("addressData") AddressData addressData, BindingResult bindingResultAddressData) {
+    public String registerNewUser(Model model, @ModelAttribute("registrationData") RegistrationData registrationData, BindingResult bindingResultRegistrationData,
+                                  @ModelAttribute("addressData") AddressData addressData, BindingResult bindingResultAddressData) throws UserDbServiceException {
         if (bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
             return TEMPLATE_REGISTRATION;
         } else {
@@ -60,14 +57,14 @@ public class RegistrationController extends BaseController {
                 return TEMPLATE_REGISTRATION;
             } else {
                 // register the new user and send him an email with the verification token
-                try {
-                    userDbService.registerNewUser(registrationData);
-                    mailService.sendVerificationMail(registrationData.getEmail());
-                } catch (UserDbServiceException ex) {
-                    logger.warn("Registering new user failed", ex);
-                } catch (MailServiceException ex) {
-                    logger.warn("Sending verification mail failed", ex);
-                }
+//                try {
+                userDbService.registerNewUser(registrationData);
+//                    mailService.sendVerificationMail(registrationData.getEmail());
+//                } catch (UserDbServiceException ex) {
+//                    logger.warn("Registering new user failed", ex);
+//                } catch (MailServiceException ex) {
+//                    logger.warn("Sending verification mail failed", ex);
+//                }
             }
         }
         return redirect(ROUTE_SUCCESS);

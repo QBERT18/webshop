@@ -70,7 +70,7 @@ public class User extends AbstractDbEntity<User> {
     private UserPermission userPermission;
 
     @Column(name = "ENABLED")
-    private boolean enabled;
+    private Boolean enabled;
 
     /**
      * User Constructor.
@@ -86,7 +86,7 @@ public class User extends AbstractDbEntity<User> {
     public User(final @NotNull @NotEmpty String email, final @NotNull @NotEmpty String password,
                 final @NotNull @NotEmpty String firstName, final @NotNull @NotEmpty String lastName,
                 final @NotNull Address deliveryAddress, final Address billAddress,
-                final @NotNull UserPermission userPermission, final boolean enabled) {
+                final @NotNull UserPermission userPermission, @NotNull final Boolean enabled) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
