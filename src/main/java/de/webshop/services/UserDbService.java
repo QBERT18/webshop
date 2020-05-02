@@ -58,6 +58,6 @@ public interface UserDbService {
      * @param user the user who wants to verify his account
      * @throws UserDbServiceException if database access fails
      */
-    VerificationToken createVerificationToken(User user) throws UserDbServiceException;
+    public VerificationToken createVerificationToken(User user, String token);
 
 }

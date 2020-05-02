@@ -1,30 +1,15 @@
 package de.webshop.services;
 
+import de.webshop.dataTransferObjects.AddressData;
+import de.webshop.entities.Address;
+import de.webshop.entities.User;
+import de.webshop.entities.VerificationToken;
+import de.webshop.services.exceptions.AddressDbServiceException;
 import de.webshop.services.exceptions.MailServiceException;
 
 public interface MailService {
 
-    /**
-     * Sends a verificatio token by e-mail.
-     *
-     * @param to the receiver
-     * @throws MailServiceException if sending failed
-     */
-    void sendVerificationMail(String to) throws MailServiceException;
-
-    /**
-     * Sends a newsletter e-mail.
-     *
-     * @param to the receiver
-     * @throws MailServiceException if sending failed
-     */
-    void sendNewsletterMail(String to) throws MailServiceException;
-
-    /**
-     * Sends a order confirmation e-mail.
-     *
-     * @param to the receiver
-     * @throws MailServiceException if sending failed
-     */
-    void sendOrderConfirmationMail(String to) throws MailServiceException;
+    public void sendVerificationMail(String mail, VerificationToken userToken) throws MailServiceException;
+    public void sendNewsletterMail(String mail) throws MailServiceException;
+    public void sendOrderConfirmationMail(String mail) throws MailServiceException;
 }

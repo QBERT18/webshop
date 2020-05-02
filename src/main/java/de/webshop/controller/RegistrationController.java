@@ -3,6 +3,10 @@ package de.webshop.controller;
 import de.webshop.dataTransferObjects.AddressData;
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.db.dataAccessObjects.UserRepository;
+import de.webshop.entities.User;
+import de.webshop.entities.VerificationToken;
+import de.webshop.eventlisteners.RegistrationEmailListener;
+import de.webshop.eventpublishers.RegistrationEmailEventPublisher;
 import de.webshop.services.MailService;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.MailServiceException;
@@ -32,12 +36,14 @@ public class RegistrationController extends BaseController {
     private final UserDbService userDbService;
     private final UserRepository userRepository;
     private final MailService mailService;
+    private final RegistrationEmailListener emailListener;
 
     @Autowired
-    public RegistrationController(final UserDbService userDbService, UserRepository userRepository, MailService mailService) {
+    public RegistrationController(final UserDbService userDbService, UserRepository userRepository, MailService mailService, RegistrationEmailListener emailListener) {
         this.userDbService = userDbService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.emailListener = emailListener;
     }
 
     @GetMapping(ROUTE_REGISTRATION)
@@ -53,21 +59,18 @@ public class RegistrationController extends BaseController {
         if (bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
             return TEMPLATE_REGISTRATION;
         } else {
-            // check if user with this email already exists
-            registrationData.setAddressData(addressData);
-            if (userRepository.getUserByEmail(registrationData.getEmail()) != null) {
-                model.addAttribute("message", "User with this Email Address already exists!");
-                return TEMPLATE_REGISTRATION;
-            } else {
-                // register the new user and send him an email with the verification token
-                try {
-                    userDbService.registerNewUser(registrationData);
-                    mailService.sendVerificationMail(registrationData.getEmail());
-                } catch (UserDbServiceException ex) {
-                    logger.warn("Registering new user failed", ex);
-                } catch (MailServiceException ex) {
-                    logger.warn("Sending verification mail failed", ex);
+            try {
+                registrationData.setAddressData(addressData);
+                if (userRepository.getUserByEmail(registrationData.getEmail()) != null) {
+                    model.addAttribute("message", "User with this Email Address already exists!");
+                    return TEMPLATE_REGISTRATION;
+                } else {
+                    User newUser = userDbService.registerNewUser(registrationData);
+                    new RegistrationEmailEventPublisher(newUser, "asdf");
+                    //mailService.sendVerificationMail(registrationData.getEmail());
                 }
+            } catch (UserDbServiceException ex) {
+                ex.printStackTrace();
             }
         }
         return redirect(ROUTE_SUCCESS);

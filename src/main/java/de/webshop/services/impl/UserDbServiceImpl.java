@@ -83,12 +83,9 @@ public class UserDbServiceImpl implements UserDbService {
     }
 
     @Override
-    public VerificationToken createVerificationToken(User user) {
-        final VerificationToken newUserToken = new VerificationToken(user, UUID.randomUUID().toString());
-        final LocalDateTime nowAtUtc = LocalDateTime.now(); // TODO use user timezone instead of system timezone
-        newUserToken.setCreated(nowAtUtc);
-        newUserToken.setExpiryDate(nowAtUtc.plusHours(VERIFICATION_TOKEN_EXPIRY_TIME_IN_HOURS));
+    public VerificationToken createVerificationToken(User user, String token) {
+        VerificationToken newUserToken = new VerificationToken(user, token);
         tokenRepository.save(newUserToken);
-        return newUserToken.deepCopy();
+        return newUserToken;
     }
 }
