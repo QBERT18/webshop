@@ -20,4 +20,6 @@ public interface OrderDbService {
     List<Product> getProductsByOrderId(long orderId) throws OrderDbServiceException;
 
     List<Order> getOrderByUserId(long userId) throws OrderDbServiceException;
+
+    void addProductToOrder(Order order, Product product, int productCount) throws OrderDbServiceException;
 }

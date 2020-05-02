@@ -7,6 +7,7 @@ import de.webshop.db.dataAccessObjects.OrderRepository;
 import de.webshop.entities.Order;
 import de.webshop.entities.Product;
 import de.webshop.entities.User;
+import de.webshop.entities.relations.OrderProducts;
 import de.webshop.services.OrderDbService;
 import de.webshop.services.ProductDbService;
 import de.webshop.services.SecurityService;
@@ -22,8 +23,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.text.SimpleDateFormat;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class ProductsController {
@@ -53,12 +59,17 @@ public class ProductsController {
 
     @GetMapping("/products/filter")
     public String filterProducts(Model model, @RequestParam(value = "category") List<String> categories) throws ProductDbServiceException {
-        List<ProductCategory> productCategories = Arrays.asList(ProductCategory.values());
-        List<Product> products = new ArrayList<>();
-        for(String category : categories) {
-            for(Product product : productDbService.getProductByCategory(ProductCategory.valueOf(category))) {
-                products.add(product);
+        final List<ProductCategory> productCategories = Arrays.asList(ProductCategory.values());
+        final List<Product> products = categories.stream().map(ProductCategory::valueOf).flatMap(productCategory -> {
+            try {
+                return productDbService.getProductByCategory(productCategory).stream();
+            } catch (ProductDbServiceException e) {
+                e.printStackTrace(); // TODO logger
+                return Stream.empty();
             }
+        }).collect(Collectors.toList());
+        for (String category : categories) {
+            products.addAll(productDbService.getProductByCategory(ProductCategory.valueOf(category)));
         }
         model.addAttribute("products", products);
         model.addAttribute("productCategories", productCategories);
@@ -71,8 +82,9 @@ public class ProductsController {
         Optional<User> user = userDbService.getUserByEmail(email);
         model.addAttribute("product", productDbService.getProductById(id));
         model.addAttribute("user", securityService.findLoggedInUsername());
-        if(user.isPresent())
+        if (user.isPresent()) {
             model.addAttribute("order", orderDbService.getOrderByUserId(user.get().getUserId()));
+        }
         return "products/productDetails/productDetails";
     }
 
@@ -80,21 +92,26 @@ public class ProductsController {
     public String addProductToCart(Model model, @ModelAttribute("orderData") OrderData orderData, BindingResult bindingResultOrderData) throws OrderDbServiceException {
         long userId = orderData.getUser().getUserId();
         List<Order> orders = orderDbService.getOrderByUserId(userId);
-        if(orders.stream().anyMatch(order -> order.getStatus().equals(OrderStatus.OPEN))) {
-            for(Order order : orders) {
-                if(order.getStatus().equals(OrderStatus.OPEN)) {
-                }
-            }
+        long nrOfOpenOrders = orders.stream().filter(order -> order.getStatus().equals(OrderStatus.OPEN)).count();
+        if (nrOfOpenOrders > 1 || nrOfOpenOrders == 0) {
+            throw new OrderDbServiceException("Found more or less open orders than expected for user " + orderData.getUser());
         } else {
-            model.addAttribute("message", "Dieses Produkt existiert schon in deinem Cart");
+            final Optional<Order> openOrder = orders.stream().filter(order -> OrderStatus.OPEN.equals(order.getStatus())).findFirst();
+            if (openOrder.isPresent()) {
+                // add product to existing order
+                final Order order = openOrder.get();
+                orderDbService.addProductToOrder(order, orderData.getProduct(), orderData.getProductCount());
+            } else {
+                // add product to new order
+                final Order newOrder = new Order();
+                newOrder.setUser(orderData.getUser());
+                final OrderProducts newOrderProduct = new OrderProducts(newOrder, orderData.getProduct(), orderData.getProductCount());
+                final List<OrderProducts> orderProductsList = new ArrayList<>();
+                orderProductsList.add(newOrderProduct);
+                newOrder.setOrderProducts(orderProductsList);
+                newOrder.setStatus(OrderStatus.OPEN);
+            }
         }
         return "products/productDetails/productDetails";
     }
-
-    public String getDeliveryDate(Calendar calendar) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        calendar.add(Calendar.DAY_OF_MONTH, 7);
-        return simpleDateFormat.format(calendar.getTime());
-    }
-
 }

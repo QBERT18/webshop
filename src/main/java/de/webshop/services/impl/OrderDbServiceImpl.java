@@ -13,11 +13,10 @@ import de.webshop.services.exceptions.OrderDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("orderDbService")
@@ -76,12 +75,29 @@ public class OrderDbServiceImpl implements OrderDbService {
             throw new OrderDbServiceException("Illegal orderId" + userId);
         } else {
             Optional<User> user = userRepository.findById(userId);
-            if(user.isPresent()) {
-                Set<Order> order = user.get().getOrders();
-                return order.stream().collect(Collectors.toList());
+            if (user.isPresent()) {
+                return new ArrayList<>(user.get().getOrders());
             } else {
                 throw new OrderDbServiceException("User not present" + userId);
             }
+        }
+    }
+
+    @Override
+    public void addProductToOrder(final Order order, final Product product, final int productCount) throws OrderDbServiceException {
+        if (order == null || product == null || productCount <= 0) {
+            throw new OrderDbServiceException("OrderId <= 0 or product was null");
+        } else {
+            final OrderProducts newOrderProducts = new OrderProducts(order, product, productCount);
+            final List<OrderProducts> orderProducts = order.getOrderProducts();
+            if (orderProducts != null) {
+                orderProducts.add(newOrderProducts);
+            } else {
+                final List<OrderProducts> newOrderProductsList = new ArrayList<>();
+                newOrderProductsList.add(newOrderProducts);
+                order.setOrderProducts(newOrderProductsList);
+            }
+            orderRepository.save(order);
         }
     }
 }
