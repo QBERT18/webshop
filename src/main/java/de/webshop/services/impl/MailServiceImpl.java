@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
-@Service("userDbService")
+@Service("mailService")
 public class MailServiceImpl implements MailService {
 
     @Autowired
