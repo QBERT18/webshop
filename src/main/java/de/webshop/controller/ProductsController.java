@@ -7,7 +7,6 @@ import de.webshop.db.dataAccessObjects.OrderRepository;
 import de.webshop.entities.Order;
 import de.webshop.entities.Product;
 import de.webshop.entities.User;
-import de.webshop.entities.relations.OrderProducts;
 import de.webshop.services.OrderDbService;
 import de.webshop.services.ProductDbService;
 import de.webshop.services.SecurityService;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -103,13 +101,7 @@ public class ProductsController {
                 orderDbService.addProductToOrder(order, orderData.getProduct(), orderData.getProductCount());
             } else {
                 // add product to new order
-                final Order newOrder = new Order();
-                newOrder.setUser(orderData.getUser());
-                final OrderProducts newOrderProduct = new OrderProducts(newOrder, orderData.getProduct(), orderData.getProductCount());
-                final List<OrderProducts> orderProductsList = new ArrayList<>();
-                orderProductsList.add(newOrderProduct);
-                newOrder.setOrderProducts(orderProductsList);
-                newOrder.setStatus(OrderStatus.OPEN);
+                orderDbService.addOrder(orderData);
             }
         }
         return "products/productDetails/productDetails";
