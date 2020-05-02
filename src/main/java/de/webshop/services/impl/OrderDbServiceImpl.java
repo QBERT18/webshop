@@ -44,11 +44,11 @@ public class OrderDbServiceImpl implements OrderDbService {
     }
 
     @Override
-    public List<Order> getOrdersByOrderStatus(OrderStatus orderStatus) throws OrderDbServiceException {
-        if (orderStatus == null) {
+    public List<Order> getOrdersByOrderStatus(OrderStatus status) throws OrderDbServiceException {
+        if (status == null) {
             throw new OrderDbServiceException("OrderStatus was null");
         } else {
-            return orderRepository.getOrdersByOrderStatus(orderStatus);
+            return orderRepository.getOrdersByStatus(status);
         }
     }
 

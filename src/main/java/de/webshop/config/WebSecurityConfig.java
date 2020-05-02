@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] ADMIN_ACCESS = {"/admin/**"};
 
     private static final String LOGIN_SITE = "/login";
-    private static final String LOGIN_SUCCESS = "/login/success";
+    private static final String LOGIN_SUCCESS = "/home";
     private static final String LOGIN_FAILED = "/login/failed";
 
     private final UserDetailsServiceImpl userDetailsService;

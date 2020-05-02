@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    List<Order> getOrdersByOrderStatus(OrderStatus orderStatus);
+    List<Order> getOrdersByStatus(OrderStatus status);
 
     List<Product> getProductsByOrderId(long orderId);
 }
