@@ -1,5 +1,6 @@
 package de.webshop.services.impl;
 
+import de.webshop.entities.VerificationToken;
 import de.webshop.services.MailService;
 import de.webshop.services.exceptions.MailServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Properties;
 
-@Service("userDbService")
+@Service("MailService")
 public class MailServiceImpl implements MailService {
 
     @Autowired
@@ -46,7 +47,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendVerificationMail(String mail) throws MailServiceException {
+    public void sendVerificationMail(String mail, VerificationToken token) throws MailServiceException {
         sendMail(mail, "Verification for diekeksticker.com", "Thanks for registration.");
     }
 

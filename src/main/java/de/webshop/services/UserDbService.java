@@ -3,6 +3,7 @@ package de.webshop.services;
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.dataTransferObjects.UserUpdateData;
 import de.webshop.entities.User;
+import de.webshop.entities.VerificationToken;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -27,6 +28,6 @@ public interface UserDbService {
      * @param user  the soon to be user
      * @param token the token to verify the user
      */
-    public void createVerificationToken(User user, String token);
+    public VerificationToken createVerificationToken(User user, String token);
 
 }
