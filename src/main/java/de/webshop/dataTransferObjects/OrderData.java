@@ -46,8 +46,12 @@ public class OrderData implements DataTransferObject {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         OrderData orderData = (OrderData) o;
         return productCount == orderData.productCount &&
                 Objects.equals(user, orderData.user) &&
@@ -70,6 +74,6 @@ public class OrderData implements DataTransferObject {
 
     @Override
     public boolean isValid() {
-        return this.user != null && this.product != null && this.productCount != 0;
+        return user != null && product != null && productCount > 0;
     }
 }

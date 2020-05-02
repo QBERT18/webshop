@@ -2,14 +2,17 @@ package de.webshop.services.impl;
 
 import de.webshop.constants.OrderStatus;
 import de.webshop.dataTransferObjects.OrderData;
+import de.webshop.db.dataAccessObjects.OrderProductsRepository;
 import de.webshop.db.dataAccessObjects.OrderRepository;
-import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.Order;
 import de.webshop.entities.Product;
 import de.webshop.entities.User;
 import de.webshop.entities.relations.OrderProducts;
+import de.webshop.entities.relations.OrderProductsCompositeKey;
 import de.webshop.services.OrderDbService;
+import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.OrderDbServiceException;
+import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +26,14 @@ import java.util.stream.Collectors;
 public class OrderDbServiceImpl implements OrderDbService {
 
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
+    private final OrderProductsRepository orderProductsRepository;
+    private final UserDbService userDbService;
 
     @Autowired
-    public OrderDbServiceImpl(OrderRepository orderRepository, UserRepository userRepository) {
+    public OrderDbServiceImpl(OrderRepository orderRepository, OrderProductsRepository orderProductsRepository, UserDbService userDbService) {
         this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
+        this.orderProductsRepository = orderProductsRepository;
+        this.userDbService = userDbService;
     }
 
     @Override
@@ -36,7 +41,14 @@ public class OrderDbServiceImpl implements OrderDbService {
         if (orderData == null) {
             throw new OrderDbServiceException("OrderData was null");
         } else {
-            orderRepository.save(Order.from(orderData.getUser(), OrderStatus.OPEN));
+            // first the order
+            final Order order = Order.from(orderData.getUser(), OrderStatus.OPEN);
+            orderRepository.save(order);
+
+            // then the product
+            final OrderProducts orderProducts = new OrderProducts(order, orderData.getProduct(), orderData.getProductCount());
+            orderProducts.setKey(new OrderProductsCompositeKey(order.getOrderId(), orderData.getProduct().getProductId()));
+            orderProductsRepository.save(orderProducts);
         }
     }
 
@@ -74,11 +86,15 @@ public class OrderDbServiceImpl implements OrderDbService {
         if (userId <= 0) {
             throw new OrderDbServiceException("Illegal orderId" + userId);
         } else {
-            Optional<User> user = userRepository.findById(userId);
-            if (user.isPresent()) {
-                return new ArrayList<>(user.get().getOrders());
-            } else {
-                throw new OrderDbServiceException("User not present" + userId);
+            try {
+                final Optional<User> user = userDbService.getUserById(userId);
+                if (user.isPresent()) {
+                    return orderRepository.getOrdersByUser(user.get());
+                } else {
+                    throw new OrderDbServiceException("User not present" + userId);
+                }
+            } catch (UserDbServiceException e) {
+                throw new OrderDbServiceException("user with id " + userId + " could not be found", e);
             }
         }
     }
@@ -88,11 +104,19 @@ public class OrderDbServiceImpl implements OrderDbService {
         if (order == null || product == null || productCount <= 0) {
             throw new OrderDbServiceException("OrderId <= 0 or product was null");
         } else {
-            final OrderProducts newOrderProducts = new OrderProducts(order, product, productCount);
+            // first save order products
+            final OrderProducts newOrderProducts = new OrderProducts();
+            newOrderProducts.setProductCount(productCount);
+            newOrderProducts.setKey(new OrderProductsCompositeKey(order.getOrderId(), product.getProductId()));
+            orderProductsRepository.save(newOrderProducts);
+
+            // then update the orders reference to order products
             final List<OrderProducts> orderProducts = order.getOrderProducts();
             if (orderProducts != null) {
                 orderProducts.add(newOrderProducts);
+                order.setOrderProducts(orderProducts);
             } else {
+                // is this else branch ever used or does hibernate ensure a non-null order product list?
                 final List<OrderProducts> newOrderProductsList = new ArrayList<>();
                 newOrderProductsList.add(newOrderProducts);
                 order.setOrderProducts(newOrderProductsList);
