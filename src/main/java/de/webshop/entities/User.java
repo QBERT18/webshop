@@ -7,16 +7,7 @@ import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.util.DeepCopyUtility;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -48,6 +39,10 @@ public class User extends AbstractDbEntity<User> {
     @ManyToOne
     @JoinColumn(name = "FK_BILL_ADDRESS_ID", referencedColumnName = "ADDRESS_ID")
     private Address billAddress;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "TOKEN", unique = true)
+    private VerificationToken token;
 
     /*
      * FIELDS
@@ -213,25 +208,34 @@ public class User extends AbstractDbEntity<User> {
         this.enabled = enabled;
     }
 
+    public VerificationToken getToken() {
+        return token;
+    }
+
+    public void setToken(VerificationToken token) {
+        this.token = token;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return userId == user.userId &&
-                email.equals(user.email) &&
-                password.equals(user.password) &&
-                firstName.equals(user.firstName) &&
-                lastName.equals(user.lastName) &&
-                userPermission.equals(user.userPermission);
+                Objects.equals(orders, user.orders) &&
+                Objects.equals(deliveryAddress, user.deliveryAddress) &&
+                Objects.equals(billAddress, user.billAddress) &&
+                Objects.equals(token, user.token) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                userPermission == user.userPermission &&
+                Objects.equals(enabled, user.enabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, email, password, firstName, lastName, userPermission);
+        return Objects.hash(userId, orders, deliveryAddress, billAddress, token, email, password, firstName, lastName, userPermission, enabled);
     }
 }

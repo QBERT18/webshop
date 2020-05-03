@@ -54,6 +54,14 @@ public class UserDbServiceImpl implements UserDbService {
     }
 
     @Override
+    public Optional<User> getUserByToken(String token) throws UserDbServiceException {
+        if (StringUtilities.isNullOrEmpty(token)) {
+            throw new UserDbServiceException("Token can't be null or empty!");
+        }
+        return Optional.ofNullable(userRepository.getUserByToken(token));
+    }
+
+    @Override
     public User registerNewUser(RegistrationData registrationData) throws DuplicateKeyException, UserDbServiceException {
         final String email = registrationData.getEmail();
         if (StringUtilities.isNullOrEmpty(email)) {
