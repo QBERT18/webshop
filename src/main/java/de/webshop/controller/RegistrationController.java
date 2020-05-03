@@ -4,12 +4,10 @@ import de.webshop.dataTransferObjects.AddressData;
 import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.db.dataAccessObjects.UserRepository;
 import de.webshop.entities.User;
-import de.webshop.entities.VerificationToken;
 import de.webshop.eventlisteners.RegistrationEmailListener;
 import de.webshop.eventpublishers.RegistrationEmailEventPublisher;
 import de.webshop.services.MailService;
 import de.webshop.services.UserDbService;
-import de.webshop.services.exceptions.MailServiceException;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +35,16 @@ public class RegistrationController extends BaseController {
     private final UserRepository userRepository;
     private final MailService mailService;
     private final RegistrationEmailListener emailListener;
+    private final RegistrationEmailEventPublisher emailEventPublisher;
 
     @Autowired
-    public RegistrationController(final UserDbService userDbService, UserRepository userRepository, MailService mailService, RegistrationEmailListener emailListener) {
+    public RegistrationController(final UserDbService userDbService, UserRepository userRepository, MailService mailService,
+                                  RegistrationEmailListener emailListener, RegistrationEmailEventPublisher emailEventPublisher) {
         this.userDbService = userDbService;
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.emailListener = emailListener;
+        this.emailEventPublisher = emailEventPublisher;
     }
 
     @GetMapping(ROUTE_REGISTRATION)
@@ -66,8 +67,7 @@ public class RegistrationController extends BaseController {
                     return TEMPLATE_REGISTRATION;
                 } else {
                     User newUser = userDbService.registerNewUser(registrationData);
-                    new RegistrationEmailEventPublisher(newUser, "asdf");
-                    //mailService.sendVerificationMail(registrationData.getEmail());
+                    emailEventPublisher.publishEvent(newUser.getUserId());
                 }
             } catch (UserDbServiceException ex) {
                 ex.printStackTrace();

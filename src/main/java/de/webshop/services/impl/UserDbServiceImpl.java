@@ -83,8 +83,8 @@ public class UserDbServiceImpl implements UserDbService {
     }
 
     @Override
-    public VerificationToken createVerificationToken(User user, String token) {
-        VerificationToken newUserToken = new VerificationToken(user, token);
+    public VerificationToken createVerificationToken(long userId, String token) {
+        VerificationToken newUserToken = new VerificationToken(userId, token);
         tokenRepository.save(newUserToken);
         return newUserToken;
     }

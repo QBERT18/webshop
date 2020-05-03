@@ -10,6 +10,5 @@ import de.webshop.services.exceptions.MailServiceException;
 public interface MailService {
 
     public void sendVerificationMail(String mail, VerificationToken userToken) throws MailServiceException;
-    public void sendNewsletterMail(String mail) throws MailServiceException;
     public void sendOrderConfirmationMail(String mail) throws MailServiceException;
 }

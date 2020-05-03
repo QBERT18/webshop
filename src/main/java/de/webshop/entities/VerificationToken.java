@@ -1,18 +1,9 @@
 package de.webshop.entities;
 
-import de.webshop.util.DeepCopyUtility;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -37,9 +28,9 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
      * RELATIONS
      */
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_ID", nullable = false, updatable = false)
-    private User user;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JoinColumn(name = "USER_ID", unique = true, nullable = false, updatable = false)
+    private long userId;
 
     // why is the token in an extra field and not in the id field? the id field is useless for a one-to-one relation
     @Column(name = "TOKEN", unique = true, nullable = false, updatable = false)
@@ -54,12 +45,14 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
     /**
      * VerificationToken constructor.
      *
-     * @param user  the user this token belongs to
-     * @param token the token
+     * @param userId the userid this token belongs to
+     * @param token  the token
      */
-    public VerificationToken(User user, String token) {
-        this.user = user;
+    public VerificationToken(long userId, String token) {
+        this.userId = userId;
         this.token = token;
+        this.createdDate = LocalDateTime.now();
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
     /**
@@ -72,18 +65,18 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
     public VerificationToken deepCopy() {
         final VerificationToken copy = new VerificationToken();
         copy.id = id;
-        copy.user = DeepCopyUtility.nullSafeDeepCopy(user);
+        copy.userId = userId;
         copy.token = token;
         copy.createdDate = createdDate != null ? LocalDateTime.from(createdDate) : null;
         copy.expiryDate = expiryDate != null ? LocalDateTime.from(expiryDate) : null;
         return copy;
     }
 
-    private static Date calculateExpiryDate(int expiryTimeInMinutes) { // why is this unused?
+    private static LocalDateTime calculateExpiryDate(int expiryTimeInMinutes) { // why is this unused?
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Timestamp(calendar.getTime().getTime()));
         calendar.add(Calendar.MINUTE, expiryTimeInMinutes);
-        return new Date(calendar.getTime().getTime());
+        return new Date(calendar.getTime().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     public static int getEXPIRATION() {
@@ -106,12 +99,12 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
         this.token = token;
     }
 
-    public User getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public LocalDateTime getCreated() {
@@ -141,14 +134,14 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
         VerificationToken that = (VerificationToken) o;
         return id == that.id &&
                 Objects.equals(token, that.token) &&
-                Objects.equals(user, that.user) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(expiryDate, that.expiryDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, token, user, createdDate, expiryDate);
+        return Objects.hash(id, token, userId, createdDate, expiryDate);
     }
 
     @Override
@@ -156,7 +149,7 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
         return "VerificationToken{" +
                 "id=" + id +
                 ", token='" + token + '\'' +
-                ", user=" + user +
+                ", userId=" + userId +
                 ", createdDate=" + createdDate +
                 ", expiryDate=" + expiryDate +
                 '}';

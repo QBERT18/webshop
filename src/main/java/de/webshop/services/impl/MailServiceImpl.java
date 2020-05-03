@@ -32,16 +32,10 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendVerificationMail(String mail, VerificationToken token) throws MailServiceException {
-        sendMail(mail, "Verification for diekeksticker.com", "Thanks for registration.");
-    }
-
-    @Override
-    public void sendNewsletterMail(final String to) throws MailServiceException {
-        try {
-            sendMail(to, "Newsletter for diekeksticker.com", "Here's our newsletter.");
-        } catch (final MailException e) {
-            throw new MailServiceException("Sending newsletter mail failed", e);
+        if (mail.isEmpty()) {
+            throw new MailServiceException("The mailaddress can't be empty!");
         }
+        sendMail(mail, "Verification for diekeksticker.com", "Thanks for registration.");
     }
 
     @Override

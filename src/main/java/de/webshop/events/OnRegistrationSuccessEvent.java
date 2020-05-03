@@ -1,6 +1,5 @@
 package de.webshop.events;
 
-import de.webshop.entities.User;
 import org.springframework.context.ApplicationEvent;
 
 import java.util.Objects;
@@ -9,29 +8,20 @@ public class OnRegistrationSuccessEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 1L;
 
-    private String appUrl; // whats this??
-    private User user; // TODO this should be a DTO instead of a DAO, right? or even better, just the id
+    private long userId; // TODO this should be a DTO instead of a DAO, right? or even better, just the id
 
-    public OnRegistrationSuccessEvent(User user, String appUrl) {
-        super(user);
-        this.user = user;
-        this.appUrl = appUrl;
+    public OnRegistrationSuccessEvent(long userId) {
+        super(userId);
+        this.userId = userId;
     }
 
-    public String getAppUrl() {
-        return appUrl;
+
+    public long getUserId() {
+        return userId;
     }
 
-    public void setAppUrl(String appUrl) {
-        this.appUrl = appUrl;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -43,21 +33,19 @@ public class OnRegistrationSuccessEvent extends ApplicationEvent {
             return false;
         }
         OnRegistrationSuccessEvent that = (OnRegistrationSuccessEvent) o;
-        return Objects.equals(appUrl, that.appUrl) &&
-                Objects.equals(user, that.user) &&
+        return Objects.equals(userId, that.userId) &&
                 Objects.equals(source, that.source);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(appUrl, user, source);
+        return Objects.hash(userId, source);
     }
 
     @Override
     public String toString() {
         return "OnRegistrationSuccessEvent{" +
-                "appUrl='" + appUrl + '\'' +
-                ", user=" + user +
+                ", user=" + userId +
                 ", source=" + source +
                 '}';
     }

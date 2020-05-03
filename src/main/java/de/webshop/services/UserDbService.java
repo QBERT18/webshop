@@ -55,9 +55,9 @@ public interface UserDbService {
     User updateUser(User oldUser, User newUser) throws UserDbServiceException;
 
     /**
-     * @param user the user who wants to verify his account
+     * @param userId the id of the user who wants to verify his account
      * @throws UserDbServiceException if database access fails
      */
-    public VerificationToken createVerificationToken(User user, String token);
+    public VerificationToken createVerificationToken(long userId, String token);
 
 }

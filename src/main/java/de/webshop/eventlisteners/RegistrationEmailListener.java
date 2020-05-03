@@ -1,16 +1,17 @@
 package de.webshop.eventlisteners;
 
-import de.webshop.constants.UserPermission;
 import de.webshop.entities.User;
 import de.webshop.entities.VerificationToken;
 import de.webshop.events.OnRegistrationSuccessEvent;
 import de.webshop.services.MailService;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.MailServiceException;
+import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -30,21 +31,22 @@ public class RegistrationEmailListener implements ApplicationListener<OnRegistra
     public void onApplicationEvent(OnRegistrationSuccessEvent event) {
         try {
             this.confirmRegistration(event);
-        } catch (MailServiceException e) {
+        } catch (MailServiceException | UserDbServiceException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void confirmRegistration(OnRegistrationSuccessEvent event) throws MailServiceException {
-        User user = event.getUser();
+    private void confirmRegistration(OnRegistrationSuccessEvent event) throws MailServiceException, UserDbServiceException {
+        long userId = event.getUserId();
         String token = UUID.randomUUID().toString();
-        VerificationToken userToken = userDbService.createVerificationToken(user, token);
-        String recipientAddress = user.getEmail();
-        String subject = "Registration Confirmation";
-        String confirmationUrl
-                = event.getAppUrl() + "/regitrationConfirm.html?token=" + token;
-
-        mailService.sendVerificationMail(user.getEmail(), userToken);
+        VerificationToken userToken = userDbService.createVerificationToken(userId, token);
+        Optional<User> user = userDbService.getUserById(userId);
+        String verificationEmail = "";
+        if (user.isPresent()) {
+            verificationEmail = user.get().getEmail();
+        }
+        
+        mailService.sendVerificationMail(verificationEmail, userToken);
     }
 }
