@@ -1,6 +1,5 @@
 package de.webshop.controller;
 
-import de.webshop.constants.OrderStatus;
 import de.webshop.constants.ProductCategory;
 import de.webshop.dataTransferObjects.OrderData;
 import de.webshop.entities.Order;
@@ -75,7 +74,7 @@ public class ProductsController extends BaseController {
     }
 
     @GetMapping("/products/product-detail")
-    public String productDetail(Model model, @RequestParam(value = "id") Long id) throws ProductDbServiceException, UserDbServiceException, OrderDbServiceException {
+    public String productDetail(Model model, @RequestParam(value = "id") Long id) throws ProductDbServiceException, UserDbServiceException {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String email = authentication.getName();
         final Optional<User> optionalUser = userDbService.getUserByEmail(email);
@@ -84,24 +83,21 @@ public class ProductsController extends BaseController {
             model.addAttribute("product", optionalProduct.get());
             model.addAttribute("user", optionalUser.get());
             model.addAttribute("orderData", new OrderData(optionalUser.get(), optionalProduct.get(), 1));
+            return "products/productDetails/productDetails";
         } else {
             final String product = "Product" + optionalProduct.map(value -> " is present:" + value.toString()).orElse(" is absent.");
             final String user = "User" + optionalUser.map(value -> " is present:" + value.toString()).orElse(" is absent.");
             throw new ProductDbServiceException("Could not get all required data from db: " + product + ";" + user);
         }
-        return "products/productDetails/productDetails";
     }
 
     @PostMapping("/products/addToCart")
     public String addProductToCart(Model model, @ModelAttribute("orderData") OrderData orderData, BindingResult bindingResultOrderData) throws OrderDbServiceException {
-        final long userId = orderData.getUser().getUserId();
-        final List<Order> orders = orderDbService.getOrderByUserId(userId);
-        final long nrOfOpenOrders = orders.stream().filter(order -> OrderStatus.OPEN.equals(order.getStatus())).count();
-        if (nrOfOpenOrders > 1) {
-            throw new OrderDbServiceException("Found more or less open orders than expected for user " + orderData.getUser());
+        if (bindingResultOrderData.hasErrors()) {
+            throw new OrderDbServiceException("Error in order data binding");
         } else {
-            final Optional<Order> openOrder = orders.stream().filter(order -> OrderStatus.OPEN.equals(order.getStatus())).findFirst();
-            model.addAttribute("message", userId);
+            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            final Optional<Order> openOrder = orderDbService.getOpenOrderByUserEmail(authentication.getName());
             if (openOrder.isPresent()) {
                 // add product to existing order
                 final Order order = openOrder.get();
@@ -112,7 +108,7 @@ public class ProductsController extends BaseController {
                 orderDbService.addOrder(orderData);
                 model.addAttribute("message", "Das Produkt wurde zu einer neuen Bestellung hinzugefügt");
             }
+            return redirect("/cart");
         }
-        return redirect("/cart");
     }
 }

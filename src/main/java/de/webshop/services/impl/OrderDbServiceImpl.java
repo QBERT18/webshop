@@ -17,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -71,13 +71,12 @@ public class OrderDbServiceImpl implements OrderDbService {
     }
 
     @Override
-    public List<Product> getProductsByOrderId(long orderId) throws OrderDbServiceException {
+    public Map<Product, Integer> getProductsByOrderId(long orderId) throws OrderDbServiceException {
         if (orderId <= 0) {
             throw new OrderDbServiceException("Illegal orderId" + orderId);
         } else {
-            final List<OrderProducts> orderProductsList = orderRepository.findById(orderId)
-                    .map(Order::getOrderProducts).orElseGet(Collections::emptyList);
-            return orderProductsList.stream().map(OrderProducts::getProduct).distinct().collect(Collectors.toList());
+            final List<OrderProducts> orderProducts = orderProductsRepository.findByOrderId(orderId);
+            return orderProducts.stream().collect(Collectors.toMap(OrderProducts::getProduct, OrderProducts::getProductCount));
         }
     }
 
@@ -122,6 +121,27 @@ public class OrderDbServiceImpl implements OrderDbService {
                 order.setOrderProducts(newOrderProductsList);
             }
             orderRepository.save(order);
+        }
+
+    }
+
+    @Override
+    public Optional<Order> getOpenOrderByUserEmail(String userEmail) throws OrderDbServiceException {
+        try {
+            final Optional<User> userByEmail = userDbService.getUserByEmail(userEmail);
+            if (userByEmail.isPresent()) {
+                final List<Order> ordersByUser = orderRepository.getOrdersByUser(userByEmail.get());
+                final long count = ordersByUser.stream().filter(order -> OrderStatus.OPEN.equals(order.getStatus())).count();
+                if (count > 1) {
+                    throw new OrderDbServiceException("More than 1 open order for user " + userEmail);
+                } else {
+                    return ordersByUser.stream().filter(order -> OrderStatus.OPEN.equals(order.getStatus())).findFirst();
+                }
+            } else {
+                throw new OrderDbServiceException("User with this email was not found: " + userEmail);
+            }
+        } catch (UserDbServiceException e) {
+            throw new OrderDbServiceException("User lookup by email failed", e);
         }
     }
 }
