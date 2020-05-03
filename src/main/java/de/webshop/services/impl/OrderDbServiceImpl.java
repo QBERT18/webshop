@@ -75,8 +75,13 @@ public class OrderDbServiceImpl implements OrderDbService {
         if (orderId <= 0) {
             throw new OrderDbServiceException("Illegal orderId" + orderId);
         } else {
-            final List<OrderProducts> orderProducts = orderProductsRepository.findByOrderId(orderId);
-            return orderProducts.stream().collect(Collectors.toMap(OrderProducts::getProduct, OrderProducts::getProductCount));
+            final Optional<Order> optionalOrder = orderRepository.findById(orderId);
+            if (optionalOrder.isPresent()) {
+                final List<OrderProducts> orderProducts = orderProductsRepository.findByOrder(optionalOrder.get());
+                return orderProducts.stream().collect(Collectors.toMap(OrderProducts::getProduct, OrderProducts::getProductCount));
+            } else {
+                throw new OrderDbServiceException("No order with this orderId found: " + orderId);
+            }
         }
     }
 
