@@ -13,16 +13,12 @@
         <main class="main-home-page-body">
             <div class="stage">
                 <div class="stage-content position-relative">
-                    <div class="stage-text position-absolute">
-                        <h2>Hmmmmh... lecker!</h2>
-                        <p>Nutzen Sie überlegten Text, um Kunden über Ihre Marke zu informieren. Wählen Sie Fotos und Text aus, die zu Ihrer Marke passen.</p>
-                    </div>
                     <div class="stage-background">
                         <picture class="parallax-image">
-                            <source media="(max-width: 1019px)" th:attr="srcset=@{/img/food-1956554_1019X500.jpg}">
-                            <source media="(max-width: 1199px)" th:attr="srcset=@{/img/food-1956554_1260x500.jpg}">
-                            <source media="(min-width: 1200px)" th:attr="srcset=@{/img/food-1956554_1260x500.jpg}">
-                             <img th:src="@{/img/food-1956554_1260x500.jpg}">
+                            <source media="(max-width: 1019px)" th:attr="srcset=@{/img/titelbild_1199x500.jpg}">
+                            <source media="(max-width: 1199px)" th:attr="srcset=@{/img/titelbild_1199x500.jpg}">
+                            <source media="(min-width: 1200px)" th:attr="srcset=@{/img/titelbild_1199x500.jpg}">
+                             <img th:src="@{/img/titelbild_1199x500.jpg}">
                         </picture>
                     </div>
                 </div>
@@ -39,7 +35,7 @@
                     </div>
                     <div class="teaser-text">
                         <div class="teaser-text-header">
-                            Wilkommen bei den KeksTickern.
+                            Willkommen bei den KeksTickern.
                         </div>
                         <div class="teaser-text-text">
                             Wir ticken seit Generationen mit Keksen.  Kombinieren Sie große Schrift mit einem Foto, um einen Fokus auf Ihr ausgewähltes Produkt, die Kategorie oder einen Blogpost zu legen. Sie können dann Details zur Verfügbarkeit und dem Style oder sogar eine Bewertung hinzufügen.
@@ -53,15 +49,15 @@
                     <a th:href="@{/products/filter(category=Vanille)}" class="three-column-image-text-teaser-col">
                         <div class="three-column-image-text-teaser-col-image">
                             <picture class="parallax-image">
-                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/250x400/fae/fae/">
-                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/300x400/fae/fae/">
-                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/350x400/fae/fae/">
-                                <img src="https://intpic01.internom.net/full/350x400/fae/fae/">
+                                <source media="(max-width: 1019px)" th:attr="srcset=@{/img/hafer_350x400.jpg}">
+                                <source media="(max-width: 1199px)" th:attr="srcset=@{/img/hafer_350x400.jpg}">
+                                <source media="(min-width: 1200px)" th:attr="srcset=@{/img/hafer_350x400.jpg}">
+                                <img th:src=@{/img/hafer_350x400.jpg}>
                             </picture>
                         </div>
                         <div class="three-column-image-text-teaser-col-text">
                             <div class="three-column-image-text-teaser-col-text-header">
-                                Titel oder Text hinzufügen
+                                Haferkekse
                             </div>
                             <div class="three-column-image-text-teaser-col-text-text">
                                 Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
@@ -71,15 +67,15 @@
                     <a th:href="@{/products/filter(category=Schokolade)}" class="three-column-image-text-teaser-col">
                         <div class="three-column-image-text-teaser-col-image">
                             <picture class="parallax-image">
-                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/250x400/fae/fae/">
-                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/300x400/fae/fae/">
-                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/350x400/fae/fae/">
-                                <img src="https://intpic01.internom.net/full/350x400/fae/fae/">
+                                <source media="(max-width: 1019px)" th:attr="srcset=@{/img/schokolade_350x400.jpg}">
+                                <source media="(max-width: 1199px)" th:attr="srcset=@{/img/schokolade_350x400.jpg}">
+                                <source media="(min-width: 1200px)" th:attr="srcset=@{/img/schokolade_350x400.jpg}">
+                                <img th:src=@{/img/schokolade_350x400.jpg}>
                             </picture>
                         </div>
                         <div class="three-column-image-text-teaser-col-text">
                             <div class="three-column-image-text-teaser-col-text-header">
-                                Titel oder Text hinzufügen
+                                Schokoladenkekse
                             </div>
                             <div class="three-column-image-text-teaser-col-text-text">
                                 Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
@@ -89,15 +85,15 @@
                     <a th:href="@{/products/filter(category=Erdbeer)}" class="three-column-image-text-teaser-col">
                         <div class="three-column-image-text-teaser-col-image">
                             <picture class="parallax-image">
-                                <source media="(max-width: 1019px)" srcset="https://intpic01.internom.net/full/250x400/fae/fae/">
-                                <source media="(max-width: 1199px)" srcset="https://intpic01.internom.net/full/300x400/fae/fae/">
-                                <source media="(min-width: 1200px)" srcset="https://intpic01.internom.net/full/350x400/fae/fae/">
-                                <img src="https://intpic01.internom.net/full/350x400/fae/fae/">
+                                <source media="(max-width: 1019px)" th:attr="srcset=@{/img/vanillekipferl_350x400.jpg}">
+                                <source media="(max-width: 1199px)" th:attr="srcset=@{/img/vanillekipferl_350x400.jpg}">
+                                <source media="(min-width: 1200px)" th:attr="srcset=@{/img/vanillekipferl_350x400.jpg}">
+                                <img th:src=@{/img/vanillekipferl_350x400.jpg}>
                             </picture>
                         </div>
                         <div class="three-column-image-text-teaser-col-text">
                             <div class="three-column-image-text-teaser-col-text-header">
-                                Titel oder Text hinzufügen
+                                Vanillekekse
                             </div>
                             <div class="three-column-image-text-teaser-col-text-text">
                                 Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
