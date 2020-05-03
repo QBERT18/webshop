@@ -5,6 +5,7 @@ import de.webshop.entities.User;
 import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,23 +21,21 @@ public class SuccessController extends BaseController {
     }
 
     @GetMapping("/registrationSuccess")
-    public String registrationSuccess() {
+    public static String registrationSuccess(Model model) {
         return "success/registrationSuccess";
     }
 
     @GetMapping("/verificationSuccess")
     public String verificationSuccess(@RequestParam(value = "token") String token) throws UserDbServiceException {
-        Optional<User> oldUser = userDbService.getUserByToken(token);
+        final Optional<User> oldUser = userDbService.getUserByToken(token);
         if (oldUser.isPresent()) {
             User newUser = oldUser.get().deepCopy();
             newUser.setEnabled(true);
             newUser.setUserPermission(UserPermission.STANDARD);
             userDbService.updateUser(oldUser.get(), newUser);
+            return "success/verificationSuccess";
         } else {
             return redirect("/error");
         }
-
-
-        return "success/verificationSuccess";
     }
 }

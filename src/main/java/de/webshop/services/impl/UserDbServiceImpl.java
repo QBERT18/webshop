@@ -16,9 +16,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service("userDbService")
 public class UserDbServiceImpl implements UserDbService {
@@ -91,9 +89,14 @@ public class UserDbServiceImpl implements UserDbService {
     }
 
     @Override
-    public VerificationToken createVerificationToken(long userId, String token) {
-        VerificationToken newUserToken = new VerificationToken(userId, token);
-        tokenRepository.save(newUserToken);
-        return newUserToken;
+    public VerificationToken createVerificationToken(long userId, String token) throws UserDbServiceException {
+        final Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            final VerificationToken newUserToken = new VerificationToken(user.get(), token);
+            tokenRepository.save(newUserToken);
+            return newUserToken;
+        } else {
+            throw new UserDbServiceException("User with this id does not exist: " + userId);
+        }
     }
 }
