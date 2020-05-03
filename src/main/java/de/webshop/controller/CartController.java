@@ -43,11 +43,4 @@ public class CartController {
         }
         return "cart/cart";
     }
-
-    @GetMapping("/cart/product")
-    public String cartProduct(Model model, @RequestParam(value = "id") Long id, @RequestParam(value = "timestamp") String timestamp) throws ProductDbServiceException {
-        model.addAttribute("product", productDbService.getProductById(id));
-        model.addAttribute("timestamp", timestamp);
-        return "cart/cart";
-    }
 }
