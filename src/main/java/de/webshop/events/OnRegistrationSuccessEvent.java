@@ -8,7 +8,7 @@ public class OnRegistrationSuccessEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 1L;
 
-    private long userId; // TODO this should be a DTO instead of a DAO, right? or even better, just the id
+    private long userId;
 
     public OnRegistrationSuccessEvent(long userId) {
         super(userId);

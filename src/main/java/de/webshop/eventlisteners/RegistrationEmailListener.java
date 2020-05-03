@@ -30,14 +30,14 @@ public class RegistrationEmailListener implements ApplicationListener<OnRegistra
     @Override
     public void onApplicationEvent(OnRegistrationSuccessEvent event) {
         try {
-            this.confirmRegistration(event);
+            sendVerificationMail(event);
         } catch (MailServiceException | UserDbServiceException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void confirmRegistration(OnRegistrationSuccessEvent event) throws MailServiceException, UserDbServiceException {
+    private void sendVerificationMail(OnRegistrationSuccessEvent event) throws MailServiceException, UserDbServiceException {
         long userId = event.getUserId();
         String token = UUID.randomUUID().toString();
         VerificationToken userToken = userDbService.createVerificationToken(userId, token);
@@ -46,7 +46,7 @@ public class RegistrationEmailListener implements ApplicationListener<OnRegistra
         if (user.isPresent()) {
             verificationEmail = user.get().getEmail();
         }
-        
+
         mailService.sendVerificationMail(verificationEmail, userToken);
     }
 }

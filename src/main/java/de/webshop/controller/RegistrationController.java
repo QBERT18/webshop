@@ -61,17 +61,13 @@ public class RegistrationController extends BaseController {
         if (bindingResultRegistrationData.hasErrors() || bindingResultAddressData.hasErrors()) {
             return TEMPLATE_REGISTRATION;
         } else {
-            try {
-                registrationData.setAddressData(addressData);
-                if (userRepository.getUserByEmail(registrationData.getEmail()) != null) {
-                    model.addAttribute("message", "User with this Email Address already exists!");
-                    return TEMPLATE_REGISTRATION;
-                } else {
-                    User newUser = userDbService.registerNewUser(registrationData);
-                    emailEventPublisher.publishEvent(newUser.getUserId());
-                }
-            } catch (UserDbServiceException ex) {
-                ex.printStackTrace();
+            registrationData.setAddressData(addressData);
+            if (userRepository.getUserByEmail(registrationData.getEmail()) != null) {
+                model.addAttribute("message", "User with this Email Address already exists!");
+                return TEMPLATE_REGISTRATION;
+            } else {
+                final User newUser = userDbService.registerNewUser(registrationData);
+                emailEventPublisher.publishEvent(newUser.getUserId());
             }
         }
         return redirect(ROUTE_SUCCESS);
