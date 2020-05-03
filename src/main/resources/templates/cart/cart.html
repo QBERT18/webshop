@@ -11,7 +11,26 @@
     <div th:replace="parts/parts.html :: nav"></div>
 </header>
 <main class="main-cart-page-body">
-    Hello From Cart
+    <div class="cart">
+        <div class="cart-content">
+            <div th:each="product : ${productMap.entrySet()}" class="cart-content-row">
+                <div class="chart-content-row-image">
+                    <picture class="parallax-image">
+                        <source media="(max-width: 1019px)" th:attr="srcset=${#lists.toList(product.key.getImageUrls().split(',')).get(1)}">
+                        <source media="(max-width: 1199px)" th:attr="srcset=${#lists.toList(product.key.getImageUrls().split(',')).get(1)}">
+                        <source media="(min-width: 1200px)" th:attr="srcset=${#lists.toList(product.key.getImageUrls().split(',')).get(1)}">
+                        <img th:src="${#lists.toList(product.key.getImageUrls().split(',')).get(1)}">
+                    </picture>
+                </div>
+                <div class="chart-content-row-text">
+                    <div th:text="${product.key.getProductName()}"></div>
+                    <div th:text="${product.key.getDescription()}"></div>
+                    <div th:text="${product.key.getPrice()}"></div>
+                    <div th:text="${product.key.getStock()}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <footer>
     <div th:replace="parts/parts.html :: footer"></div>

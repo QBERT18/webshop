@@ -292,3 +292,18 @@ footer {
     transition: background .3s ease;
     width: 200px;
 }
+.cart-content-row {
+    display: grid;
+    grid-template-columns: 0.3fr 1.7fr;
+    grid-template-rows: 1fr;
+    gap: 1px 40px;
+    grid-template-areas: ". .";
+    border-bottom: 2px solid #F6F6F6;
+}
+.chart-content-row-text {
+    display: grid;
+    grid-template-columns: 0.5fr 2.7fr repeat(2, 0.4fr);
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". . . .";
+}
