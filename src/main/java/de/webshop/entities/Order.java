@@ -169,26 +169,12 @@ public class Order extends AbstractDbEntity<Order> {
         Order order = (Order) o;
         return orderId == order.orderId &&
                 status == order.status &&
-                user.equals(order.user) &&
-                Objects.equals(orderProducts, order.orderProducts) &&
                 orderTime.equals(order.orderTime) &&
                 Objects.equals(deliverTime, order.deliverTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, user, orderProducts, orderTime, deliverTime, status);
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", user=" + user +
-                ", orderProducts=" + orderProducts +
-                ", orderTime=" + orderTime +
-                ", deliverTime=" + deliverTime +
-                ", orderStatus=" + status +
-                '}';
+        return Objects.hash(orderId, orderTime, deliverTime, status);
     }
 }

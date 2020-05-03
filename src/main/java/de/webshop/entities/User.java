@@ -223,9 +223,6 @@ public class User extends AbstractDbEntity<User> {
         }
         User user = (User) o;
         return userId == user.userId &&
-                Objects.equals(orders, user.orders) &&
-                Objects.equals(deliveryAddress, user.deliveryAddress) &&
-                Objects.equals(billAddress, user.billAddress) &&
                 email.equals(user.email) &&
                 password.equals(user.password) &&
                 firstName.equals(user.firstName) &&
@@ -235,21 +232,6 @@ public class User extends AbstractDbEntity<User> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, orders, deliveryAddress, billAddress, email, password, firstName, lastName, userPermission);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", orders=" + orders +
-                ", deliveryAddress=" + deliveryAddress +
-                ", billAddress=" + billAddress +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userPermission=" + userPermission +
-                '}';
+        return Objects.hash(userId, email, password, firstName, lastName, userPermission);
     }
 }

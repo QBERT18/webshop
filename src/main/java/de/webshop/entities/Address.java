@@ -165,8 +165,6 @@ public class Address extends AbstractDbEntity<Address> {
         }
         Address address = (Address) o;
         return addressId == address.addressId &&
-                Objects.equals(usersWithThisDeliveryAddress, address.usersWithThisDeliveryAddress) &&
-                Objects.equals(usersWithThisBillAddress, address.usersWithThisBillAddress) &&
                 countryCode.equals(address.countryCode) &&
                 zipCode.equals(address.zipCode) &&
                 city.equals(address.city) &&
@@ -175,19 +173,6 @@ public class Address extends AbstractDbEntity<Address> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(addressId, usersWithThisDeliveryAddress, usersWithThisBillAddress, countryCode, zipCode, city, street);
-    }
-
-    @Override
-    public String toString() {
-        return "Address{" +
-                "addressId=" + addressId +
-                ", usersWithThisDeliveryAddress=" + usersWithThisDeliveryAddress +
-                ", usersWithThisBillAddress=" + usersWithThisBillAddress +
-                ", countryCode='" + countryCode + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                '}';
+        return Objects.hash(addressId, countryCode, zipCode, city, street);
     }
 }
