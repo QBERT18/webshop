@@ -14,21 +14,12 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
 
     private static final int EXPIRATION = 60 * 24; // why is this unused?
 
-
-    /*
-     * ID
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TOKEN_ID", unique = true, nullable = false, updatable = false)
-    private int id;
-
-
     /*
      * RELATIONS
      */
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @OneToOne(mappedBy = "user")
     @JoinColumn(name = "USER_ID", unique = true, nullable = false, updatable = false)
     private long userId;
 
@@ -64,7 +55,6 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
     @Override
     public VerificationToken deepCopy() {
         final VerificationToken copy = new VerificationToken();
-        copy.id = id;
         copy.userId = userId;
         copy.token = token;
         copy.createdDate = createdDate != null ? LocalDateTime.from(createdDate) : null;
@@ -81,14 +71,6 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
 
     public static int getEXPIRATION() {
         return EXPIRATION;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getToken() {
@@ -132,8 +114,7 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
             return false;
         }
         VerificationToken that = (VerificationToken) o;
-        return id == that.id &&
-                Objects.equals(token, that.token) &&
+        return Objects.equals(token, that.token) &&
                 Objects.equals(userId, that.userId) &&
                 Objects.equals(createdDate, that.createdDate) &&
                 Objects.equals(expiryDate, that.expiryDate);
@@ -141,13 +122,12 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, token, userId, createdDate, expiryDate);
+        return Objects.hash(token, userId, createdDate, expiryDate);
     }
 
     @Override
     public String toString() {
         return "VerificationToken{" +
-                "id=" + id +
                 ", token='" + token + '\'' +
                 ", userId=" + userId +
                 ", createdDate=" + createdDate +

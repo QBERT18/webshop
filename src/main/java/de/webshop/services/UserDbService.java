@@ -6,6 +6,7 @@ import de.webshop.entities.VerificationToken;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.dao.DuplicateKeyException;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public interface UserDbService {
@@ -35,6 +36,9 @@ public interface UserDbService {
      * @throws UserDbServiceException if database access fails
      */
     Optional<User> getUserById(long userId) throws UserDbServiceException;
+
+
+    Optional<User> getUserByToken(String token) throws UserDbServiceException;
 
     /**
      * Creates a new user from the given registration data and puts him in the database.
