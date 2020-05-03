@@ -38,13 +38,4 @@ public class MailServiceImpl implements MailService {
         sendMail(mail, "Verification for diekekse.com", "Thanks for your registration! Press the " +
                 "following link to verificate your account! " + "http://localhost:8080/verificationSuccess?token=" + token.getToken());
     }
-
-    @Override
-    public void sendOrderConfirmationMail(final String to) throws MailServiceException {
-        try {
-            sendMail(to, "Your order at diekekse.com", "Here's your order Confirmation.");
-        } catch (final MailException e) {
-            throw new MailServiceException("Sending order confirmation mail failed", e);
-        }
-    }
 }
