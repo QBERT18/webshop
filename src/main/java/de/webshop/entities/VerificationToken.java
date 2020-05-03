@@ -50,11 +50,10 @@ public class VerificationToken extends AbstractDbEntity<VerificationToken> imple
     /**
      * VerificationToken constructor.
      *
-     * @param user  the user this token belongs to
      * @param token the token
      */
-    public VerificationToken(User user, String token) {
-        this.user = user;
+    public VerificationToken(long userId, String token) {
+        this.userId = userId;
         this.token = token;
         createdDate = LocalDateTime.now();
         expiryDate = createdDate.plusMinutes(EXPIRATION_TIME_IN_MINUTES);

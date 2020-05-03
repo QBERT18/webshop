@@ -55,8 +55,14 @@ public class UserDbServiceImpl implements UserDbService {
     public Optional<User> getUserByToken(String token) throws UserDbServiceException {
         if (StringUtilities.isNullOrEmpty(token)) {
             throw new UserDbServiceException("Token can't be null or empty!");
+        } else {
+            final Optional<VerificationToken> verificationTokenByToken = tokenRepository.findVerificationTokenByToken(token);
+            if (verificationTokenByToken.isPresent()) {
+                return Optional.ofNullable(userRepository.getUserByToken(verificationTokenByToken.get()));
+            } else {
+                throw new UserDbServiceException("Could not find token: " + token);
+            }
         }
-        return Optional.ofNullable(userRepository.getUserByToken(token));
     }
 
     @Override
@@ -92,7 +98,8 @@ public class UserDbServiceImpl implements UserDbService {
     public VerificationToken createVerificationToken(long userId, String token) throws UserDbServiceException {
         final Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            final VerificationToken newUserToken = new VerificationToken(user.get(), token);
+            final VerificationToken newUserToken = new VerificationToken(userId, token);
+            newUserToken.setUser(user.get()); // TODO recheck if this ís necessary, hibernate should handle update of relations
             tokenRepository.save(newUserToken);
             return newUserToken;
         } else {
