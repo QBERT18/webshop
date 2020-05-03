@@ -4,10 +4,8 @@ import de.webshop.entities.Order;
 import de.webshop.entities.Product;
 import de.webshop.services.OrderDbService;
 import de.webshop.services.ProductDbService;
-import de.webshop.services.UserDbService;
 import de.webshop.services.exceptions.OrderDbServiceException;
 import de.webshop.services.exceptions.ProductDbServiceException;
-import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,17 +22,15 @@ public class CartController {
 
     private final ProductDbService productDbService;
     private final OrderDbService orderDbService;
-    private final UserDbService userDbService;
 
     @Autowired
-    public CartController(ProductDbService productDbService, OrderDbService orderDbService, UserDbService userDbService) {
+    public CartController(ProductDbService productDbService, OrderDbService orderDbService) {
         this.productDbService = productDbService;
         this.orderDbService = orderDbService;
-        this.userDbService = userDbService;
     }
 
     @GetMapping("/cart")
-    public String cart(Model model) throws UserDbServiceException, OrderDbServiceException {
+    public String cart(Model model) throws OrderDbServiceException {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String email = authentication.getName();
         final Optional<Order> openOrder = orderDbService.getOpenOrderByUserEmail(email);
