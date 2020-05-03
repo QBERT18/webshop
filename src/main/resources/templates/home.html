@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="de" id="html">
+<head>
+    <title>DIEKEKSE.COM Homepage</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+    <body>
+        <header>
+            <div th:replace="parts/parts.html :: nav"></div>
+        </header>
+        <main class="main-home-page-body">
+            <div class="stage">
+                <div class="stage-content position-relative">
+                    <div class="stage-background">
+                        <picture class="parallax-image">
+                            <source media="(max-width: 1019px)" th:attr="srcset=@{/img/titelbild_1199x500.jpg}">
+                            <source media="(max-width: 1199px)" th:attr="srcset=@{/img/titelbild_1199x500.jpg}">
+                            <source media="(min-width: 1200px)" th:attr="srcset=@{/img/titelbild_1199x500.jpg}">
+                            <img th:src="@{/img/titelbild_1199x500.jpg}">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+            <div class="image-text-teaser container">
+                <div class="image-text-teaser-content">
+                    <div class="teaser-image">
+                        <picture class="parallax-image">
+                            <source media="(max-width: 1019px)" th:attr="srcset=@{/img/cookie-3216243_600x500.jpg}">
+                            <source media="(max-width: 1199px)" th:attr="srcset=@{/img/cookie-3216243_600x500.jpg}">
+                            <source media="(min-width: 1200px)" th:attr="srcset=@{/img/cookie-3216243_600x500.jpg}">
+                            <img th:src=@{/img/cookie-3216243_600x500.jpg}>
+                        </picture>
+                    </div>
+                    <div class="teaser-text">
+                        <div class="teaser-text-header">
+                            Willkommen bei den Keksen.
+                        </div>
+                        <div class="teaser-text-text">
+                            Wir handeln seit Generationen mit Keksen. Nicht nur Kinderaugen leuchten, wenn von Schokolade, Keksen und anderen Leckereien die ist. Die meisten Menschen erfreuen sich ein ganzes Leben lang an dem süßen Genuss, der gut schmeckt und glücklich macht. Deshalb haben wir, ein Familienunternehmen, uns vor über 30 Jahren auf den Vertrieb von Süßwaren spezialisiert. Die Leidenschaft verleitete uns einen Online Süßigkeiten Shop zu eröffnen, der dem Kunden die ganze Bandbreite an süßen Verführungen anbietet. Das Angebot geht weit über das der üblichen Supermärkte hinaus. Beim Stöbern in unserem Shop stoßen Sie auf zahlreiche Neuentdeckungen und viele süße Überraschungen aus verschiedenen Ländern.
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="three-column-image-text-teaser">
+                <div class="three-column-image-text-teaser-content">
+                    <a th:href="@{/products/filter(category=Vanille)}" class="three-column-image-text-teaser-col">
+                        <div class="three-column-image-text-teaser-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" th:attr="srcset=@{/img/hafer_350x400.jpg}">
+                                <source media="(max-width: 1199px)" th:attr="srcset=@{/img/hafer_350x400.jpg}">
+                                <source media="(min-width: 1200px)" th:attr="srcset=@{/img/hafer_350x400.jpg}">
+                                <img th:src=@{/img/hafer_350x400.jpg}>
+                            </picture>
+                        </div>
+                        <div class="three-column-image-text-teaser-col-text">
+                            <div class="three-column-image-text-teaser-col-text-header">
+                                Haferkekse
+                            </div>
+                            <div class="three-column-image-text-teaser-col-text-text">
+                                Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
+                            </div>
+                        </div>
+                    </a>
+                    <a th:href="@{/products/filter(category=Schokolade)}" class="three-column-image-text-teaser-col">
+                        <div class="three-column-image-text-teaser-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" th:attr="srcset=@{/img/schokolade_350x400.jpg}">
+                                <source media="(max-width: 1199px)" th:attr="srcset=@{/img/schokolade_350x400.jpg}">
+                                <source media="(min-width: 1200px)" th:attr="srcset=@{/img/schokolade_350x400.jpg}">
+                                <img th:src=@{/img/schokolade_350x400.jpg}>
+                            </picture>
+                        </div>
+                        <div class="three-column-image-text-teaser-col-text">
+                            <div class="three-column-image-text-teaser-col-text-header">
+                                Schokoladenkekse
+                            </div>
+                            <div class="three-column-image-text-teaser-col-text-text">
+                                Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
+                            </div>
+                        </div>
+                    </a>
+                    <a th:href="@{/products/filter(category=Hafer)}" class="three-column-image-text-teaser-col">
+                        <div class="three-column-image-text-teaser-col-image">
+                            <picture class="parallax-image">
+                                <source media="(max-width: 1019px)" th:attr="srcset=@{/img/vanillekipferl_350x400.jpg}">
+                                <source media="(max-width: 1199px)" th:attr="srcset=@{/img/vanillekipferl_350x400.jpg}">
+                                <source media="(min-width: 1200px)" th:attr="srcset=@{/img/vanillekipferl_350x400.jpg}">
+                                <img th:src=@{/img/vanillekipferl_350x400.jpg}>
+                            </picture>
+                        </div>
+                        <div class="three-column-image-text-teaser-col-text">
+                            <div class="three-column-image-text-teaser-col-text-header">
+                                Vanillekekse
+                            </div>
+                            <div class="three-column-image-text-teaser-col-text-text">
+                                Blogposts, Produkte oder Promotions mit Ihren Kunden teilen. Nutzen Sie diesen Text, um Produkte zu beschreiben, Details zu Verfügbarkeit und Stil mitzuteilen oder als Ort, wo Reviews oder FAQs stehen.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="customer-reviews">
+                <div class="customer-reviews-content my-auto">
+                    <div class="customer-reviews-content-col">
+                        <div class="customer-reviews-col-icon">
+                            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35"><path d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z" fill="#000" fill-rule="evenodd"></path></svg>
+                        </div>
+                        <div class="customer-reviews-content-col-review mt-3">
+                            <p>Kekse essen und Beischlaf sind die beiden großen Begierden des Mannes.</p>
+                        </div>
+                        <div class="customer-reviews-content-col-customer">
+                            <cite>Konfuzius</cite>
+                        </div>
+                    </div>
+                    <div class="customer-reviews-content-col">
+                        <div class="customer-reviews-col-icon">
+                            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35"><path d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z" fill="#000" fill-rule="evenodd"></path></svg>
+                        </div>
+                        <div class="customer-reviews-content-col-review mt-3">
+                            <p>Du solltest Deine Kekse verfolgen.<br>Das wird Dich glücklicher machen als so ziemlich alles andere.</p>
+                        </div>
+                        <div class="customer-reviews-content-col-customer">
+                            <cite>Elon Musk</cite>
+                        </div>
+                    </div>
+                    <div class="customer-reviews-content-col">
+                        <div class="customer-reviews-col-icon">
+                            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-quote" viewBox="0 0 41 35"><path d="M10.208 17.711h6.124v16.332H0V21.684C0 8.184 5.444.956 16.332 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766zm24.498 0h6.124v16.332H24.498V21.684C24.498 8.184 29.942.956 40.83 0v6.125c-4.083 1.14-6.124 4.414-6.124 9.82v1.766z" fill="#000" fill-rule="evenodd"></path></svg>
+                        </div>
+                        <div class="customer-reviews-content-col-review mt-3">
+                            <p>Wir alle brauchen Menschen, die uns Kekse geben. So verbessern wir uns.</p>
+                        </div>
+                        <div class="customer-reviews-content-col-customer">
+                            <cite>Bill Gates</cite>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div th:replace="parts/parts.html :: footer"></div>
+        </footer>
+
+        <!-- Boostrap Scripts Start -->
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- Boostrap Scripts End -->
+    </body>
+</html>
