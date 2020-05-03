@@ -31,10 +31,13 @@
                             <a th:href="@{/products/product-detail(id=${product.getProductId()})}">
                                 <div class="product-grid-content-col-image">
                                     <picture class="parallax-image">
-                                        <source media="(max-width: 1019px)" th:attr="srcset=@{/img/keks-200x200.png}">
-                                        <source media="(max-width: 1199px)" th:attr="srcset=@{/img/keks-200x200.png}">
-                                        <source media="(min-width: 1200px)" th:attr="srcset=@{/img/keks-200x200.png}">
-                                        <img th:src="@{/img/keks-200x200.png}">
+                                        <source media="(max-width: 1019px)"
+                                                th:srcset="${#lists.toList(product.getImageUrls().split(',')).get(1)}">
+                                        <source media="(max-width: 1199px)"
+                                                th:srcset="${#lists.toList(product.getImageUrls().split(',')).get(1)}">
+                                        <source media="(min-width: 1200px)"
+                                                th:srcset="${#lists.toList(product.getImageUrls().split(',')).get(1)}">
+                                        <img th:src="${#lists.toList(product.getImageUrls().split(',')).get(1)}">
                                     </picture>
                                 </div>
                                 <div class="product-grid-content-col-text" th:value="${product.getProductId()}" th:text="${product.getProductName()}"></div>
