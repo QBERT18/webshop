@@ -4,7 +4,7 @@ public enum ProductCategory {
 
     Vanille("Vanille"),
     Schokolade("Schokolade"),
-    Erdbeer("Erdbeer");
+    Hafer("Hafer");
 
     private final String dbCode;
 
