@@ -31,4 +31,10 @@ public class ApplicationConfig implements WebMvcConfigurer {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
+
+    @Bean
+    public static JavaMailSender getJavaMailSender() {
+        final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        return mailSender;
+    }
 }
