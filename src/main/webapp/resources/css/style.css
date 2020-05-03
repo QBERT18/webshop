@@ -292,6 +292,21 @@ footer {
     transition: background .3s ease;
     width: 200px;
 }
+.cart-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 1.5fr;
+    gap: 1px 1px;
+    grid-template-areas: "." ".";
+}
+.cart-content-header {
+    display: grid;
+    grid-template-columns: 0.5fr 2.7fr repeat(2, 0.4fr);
+    grid-template-rows: 1fr;
+    gap: 1px 1px;
+    grid-template-areas: ". . . .";
+    margin-left: 250px;
+}
 .cart-content-row {
     display: grid;
     grid-template-columns: 0.3fr 1.7fr;

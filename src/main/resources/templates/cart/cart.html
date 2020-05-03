@@ -13,6 +13,12 @@
 <main class="main-cart-page-body">
     <div class="cart">
         <div class="cart-content">
+            <div class="cart-content-header">
+                <div>Name</div>
+                <div>Beschreibung</div>
+                <div>Preis</div>
+                <div>Anzahl</div>
+            </div>
             <div th:each="product : ${productMap.entrySet()}" class="cart-content-row">
                 <div class="chart-content-row-image">
                     <picture class="parallax-image">
@@ -26,7 +32,7 @@
                     <div th:text="${product.key.getProductName()}"></div>
                     <div th:text="${product.key.getDescription()}"></div>
                     <div th:text="${product.key.getPrice()}"></div>
-                    <div th:text="${product.key.getStock()}"></div>
+                    <div th:text="${product.value}"></div>
                 </div>
             </div>
         </div>
