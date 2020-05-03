@@ -35,14 +35,14 @@ public class MailServiceImpl implements MailService {
         if (mail.isEmpty()) {
             throw new MailServiceException("The mailaddress can't be empty!");
         }
-        sendMail(mail, "Verification for diekeksticker.com", "Thanks for your registration! Press the " +
+        sendMail(mail, "Verification for diekekse.com", "Thanks for your registration! Press the " +
                 "following link to verificate your account! " + "http://localhost:8080/verificationSuccess?token=" + token.getToken());
     }
 
     @Override
     public void sendOrderConfirmationMail(final String to) throws MailServiceException {
         try {
-            sendMail(to, "Your order at diekeksticker.com", "Here's your order Confirmation.");
+            sendMail(to, "Your order at diekekse.com", "Here's your order Confirmation.");
         } catch (final MailException e) {
             throw new MailServiceException("Sending order confirmation mail failed", e);
         }
