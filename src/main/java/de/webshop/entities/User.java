@@ -7,7 +7,19 @@ import de.webshop.dataTransferObjects.RegistrationData;
 import de.webshop.util.DeepCopyUtility;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -40,8 +52,7 @@ public class User extends AbstractDbEntity<User> {
     @JoinColumn(name = "FK_BILL_ADDRESS_ID", referencedColumnName = "ADDRESS_ID")
     private Address billAddress;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "TOKEN", unique = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private VerificationToken token;
 
     /*
@@ -218,8 +229,12 @@ public class User extends AbstractDbEntity<User> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         User user = (User) o;
         return userId == user.userId &&
                 Objects.equals(orders, user.orders) &&

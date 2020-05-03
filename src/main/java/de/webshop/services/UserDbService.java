@@ -6,7 +6,6 @@ import de.webshop.entities.VerificationToken;
 import de.webshop.services.exceptions.UserDbServiceException;
 import org.springframework.dao.DuplicateKeyException;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public interface UserDbService {
@@ -62,6 +61,6 @@ public interface UserDbService {
      * @param userId the id of the user who wants to verify his account
      * @throws UserDbServiceException if database access fails
      */
-    public VerificationToken createVerificationToken(long userId, String token);
+    public VerificationToken createVerificationToken(long userId, String token) throws UserDbServiceException;
 
 }
