@@ -7,7 +7,7 @@ import de.webshop.util.DeepCopy;
  *
  * @param <T> the extending class (used in the deepCopy method return parameter)
  */
-public abstract class AbstractDbEntity<T extends AbstractDbEntity<?>> implements DeepCopy<T> {
+public abstract class AbstractDbEntity<T extends AbstractDbEntity<T>> implements DeepCopy<T> {
 
     @Override
     public abstract boolean equals(Object obj);
