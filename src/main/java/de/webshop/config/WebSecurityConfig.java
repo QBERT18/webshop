@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * These sites will be visible to anyone.
      */
-    private static final String[] UNRESTRICTED_ACCESS = {"/login", "/registration", "/login/failed", "/registration/**", "/impressum", "/contact"};
+    private static final String[] UNRESTRICTED_ACCESS = {"/verificationSuccess","/registrationSuccess", "/login", "/registration", "/login/failed", "/registration/**", "/impressum", "/contact"};
 
     /**
      * These sites will only be visible if user has UserPermission.FULL.

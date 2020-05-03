@@ -21,6 +21,6 @@ public class LoginController extends BaseController {
 
     @GetMapping("/login/success")
     public String loginSuccess(Model model) {
-        return redirect("/success");
+        return redirect("/registrationSuccess");
     }
 }

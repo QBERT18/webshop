@@ -35,7 +35,8 @@ public class MailServiceImpl implements MailService {
         if (mail.isEmpty()) {
             throw new MailServiceException("The mailaddress can't be empty!");
         }
-        sendMail(mail, "Verification for diekeksticker.com", "Thanks for registration.");
+        sendMail(mail, "Verification for diekeksticker.com", "Thanks for your registration! Press the " +
+                "following link to verificate your account! " + "http://localhost:8080/verificationSuccess?token=" + token.getToken());
     }
 
     @Override

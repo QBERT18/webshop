@@ -29,7 +29,8 @@ public class RegistrationController extends BaseController {
 
     private final String TEMPLATE_REGISTRATION = "registration/registration";
     private final String ROUTE_REGISTRATION = "/registration";
-    private final String ROUTE_SUCCESS = "/success";
+    private final String ROUTE_SUCCESS = "/registrationSuccess";
+    private final String VERIFICATION_SUCCESS = "/verificationSuccess";
 
     private final UserDbService userDbService;
     private final UserRepository userRepository;
