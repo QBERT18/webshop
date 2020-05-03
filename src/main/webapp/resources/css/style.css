@@ -40,10 +40,10 @@ footer {
 .stage {
     width: 100%;
     text-align: center;
+    margin-bottom: 40px;
 }
 .stage-content {
     width: 100%;
-    text-align: center;
 }
 .stage-background {
     width: 100%;
@@ -54,6 +54,10 @@ footer {
     bottom: 50%;
     left: 0;
     right: 0;
+    color: white;
+}
+.image-text-teaser {
+    margin-bottom: 40px;
 }
 .image-text-teaser-content {
     display: grid;
@@ -85,6 +89,7 @@ footer {
 }
 .three-column-image-text-teaser {
     text-align: center;
+    margin-bottom: 40px;
 }
 .three-column-image-text-teaser-content {
     display: grid;
@@ -100,6 +105,12 @@ footer {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
+    text-decoration: none;
+    color: black;
+}
+.three-column-image-text-teaser-col:hover {
+    text-decoration: none;
+    color: black;
 }
 .three-column-image-text-teaser-col-text {
     margin-top: 20px;
@@ -135,6 +146,7 @@ footer {
     justify-content: center;
     align-content: flex-start;
     align-items: center;
+    margin-bottom: 40px;
 }
 .customer-reviews-content {
     display: grid;
