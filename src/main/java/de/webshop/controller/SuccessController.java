@@ -26,10 +26,10 @@ public class SuccessController extends BaseController {
     }
 
     @GetMapping("/verificationSuccess")
-    public String verificationSuccess(@RequestParam(value = "token") String token) throws UserDbServiceException {
+    public String verificationSuccess(@RequestParam String token) throws UserDbServiceException {
         final Optional<User> oldUser = userDbService.getUserByToken(token);
         if (oldUser.isPresent()) {
-            User newUser = oldUser.get().deepCopy();
+            final User newUser = oldUser.get();
             newUser.setEnabled(true);
             newUser.setUserPermission(UserPermission.STANDARD);
             userDbService.updateUser(oldUser.get(), newUser);
