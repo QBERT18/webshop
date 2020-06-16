@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -57,9 +58,15 @@ public class ProductsController extends BaseController {
     }
 
     @GetMapping("/products/filter")
-    public String filterProducts(Model model, @RequestParam(value = "category") List<String> categories) throws ProductDbServiceException {
+    public String filterProducts(Model model, @RequestParam(value = "category", required = false) List<String> categories) throws ProductDbServiceException {
         final List<ProductCategory> productCategories = Arrays.asList(ProductCategory.values());
-        final List<Product> products = categories.stream().map(ProductCategory::valueOf).flatMap(this::getProductByCategory).collect(Collectors.toList());
+        final Iterable<Product> products;
+        if (categories == null) {
+            // return product page without filtering
+            products = productDbService.getAllProducts();
+        } else {
+            products = categories.stream().map(ProductCategory::valueOf).flatMap(this::getProductByCategory).collect(Collectors.toList());
+        }
         model.addAttribute("products", products);
         model.addAttribute("productCategories", productCategories);
         return "products/products";
