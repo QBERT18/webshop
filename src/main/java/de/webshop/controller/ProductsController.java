@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,20 +59,19 @@ public class ProductsController extends BaseController {
     @GetMapping("/products/filter")
     public String filterProducts(Model model, @RequestParam(value = "category") List<String> categories) throws ProductDbServiceException {
         final List<ProductCategory> productCategories = Arrays.asList(ProductCategory.values());
-        final List<Product> products = categories.stream().map(ProductCategory::valueOf).flatMap(productCategory -> {
-            try {
-                return productDbService.getProductByCategory(productCategory).stream();
-            } catch (ProductDbServiceException e) {
-                logger.error("productDbService access failed", e);
-                return Stream.empty();
-            }
-        }).collect(Collectors.toList());
-        for (String category : categories) {
-            products.addAll(productDbService.getProductByCategory(ProductCategory.valueOf(category)));
-        }
+        final List<Product> products = categories.stream().map(ProductCategory::valueOf).flatMap(this::getProductByCategory).collect(Collectors.toList());
         model.addAttribute("products", products);
         model.addAttribute("productCategories", productCategories);
         return "products/products";
+    }
+
+    private Stream<? extends Product> getProductByCategory(ProductCategory productCategory) {
+        try {
+            return productDbService.getProductByCategory(productCategory).stream();
+        } catch (ProductDbServiceException e) {
+            logger.error("productDbService access failed", e);
+            return Stream.empty();
+        }
     }
 
     @GetMapping("/products/product-detail")
