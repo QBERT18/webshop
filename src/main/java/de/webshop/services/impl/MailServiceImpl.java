@@ -9,6 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.net.ConnectException;
 import java.util.Properties;
 
 @Service("MailService")
@@ -27,7 +28,11 @@ public class MailServiceImpl implements MailService {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        }catch (MailException e) {
+            // did not send mail :-(
+        }
     }
 
     @Override
